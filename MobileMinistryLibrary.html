@@ -1,0 +1,1886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mobile Ministry Library — Leonard (CSS Navigation)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',system-ui,sans-serif;background:#F0F4FB;color:#1A1A2E}
+#app{display:flex;min-height:100vh}
+
+/* SIDEBAR */
+#sidebar{width:260px;min-width:260px;background:#1A2E6E;color:#fff;display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow-y:auto;z-index:10}
+#sidebar-header{padding:20px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid rgba(255,255,255,0.15);background:#0f1e4a}
+.nav-label{display:block;padding:13px 18px;cursor:pointer;color:#fff;border-left:4px solid transparent;transition:background 0.15s,border-color 0.15s;font-size:13.5px;letter-spacing:0.01em}
+.nav-label:hover{background:rgba(255,255,255,0.1)}
+
+/* MAIN */
+#main{flex:1;padding:36px 40px;overflow-y:auto;max-width:940px}
+.section{animation:fadeIn 0.25s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+/* ALL SECTIONS HIDDEN */
+.section{display:none}
+
+/* CSS NAVIGATION — radio :checked */
+#t-about:checked ~ #app #sec-about{display:block}
+#t-identity:checked ~ #app #sec-identity{display:block}
+#t-modules:checked ~ #app #sec-modules{display:block}
+#t-hebrew:checked ~ #app #sec-hebrew{display:block}
+#t-bride:checked ~ #app #sec-bride{display:block}
+#t-revival:checked ~ #app #sec-revival{display:block}
+#t-discipleship:checked ~ #app #sec-discipleship{display:block}
+#t-diagrams:checked ~ #app #sec-diagrams{display:block}
+#t-scripts:checked ~ #app #sec-scripts{display:block}
+#t-handouts:checked ~ #app #sec-handouts{display:block}
+
+/* ACTIVE NAV HIGHLIGHT */
+#t-about:checked ~ #app label[for="t-about"],
+#t-identity:checked ~ #app label[for="t-identity"],
+#t-modules:checked ~ #app label[for="t-modules"],
+#t-hebrew:checked ~ #app label[for="t-hebrew"],
+#t-bride:checked ~ #app label[for="t-bride"],
+#t-revival:checked ~ #app label[for="t-revival"],
+#t-discipleship:checked ~ #app label[for="t-discipleship"],
+#t-diagrams:checked ~ #app label[for="t-diagrams"],
+#t-scripts:checked ~ #app label[for="t-scripts"],
+#t-handouts:checked ~ #app label[for="t-handouts"]{
+  background:rgba(201,162,39,0.25);
+  border-left:4px solid #C9A227;
+  font-weight:700;
+}
+
+/* HEADINGS */
+.page-heading{font-family:'Crimson Pro',Georgia,serif;font-size:2rem;color:#2952A3;margin-bottom:8px;font-weight:700}
+.page-heading-hebrew{font-family:'Crimson Pro',Georgia,serif;font-size:2rem;color:#2952A3;direction:rtl;display:inline}
+.section-subtitle{font-size:0.95rem;color:#555;margin-bottom:28px;line-height:1.6}
+
+/* CARDS */
+.card{background:#fff;border-radius:12px;padding:22px;box-shadow:0 2px 12px rgba(26,46,110,0.07)}
+.card-navy-top{border-top:4px solid #1A2E6E}
+.card-gold-border{border:2px solid #C9A227;border-radius:12px;padding:24px;background:#FFFDF5}
+.card-parchment{background:#FDF8EE;border:2px solid #C9A227;border-radius:12px;padding:28px;font-family:'Crimson Pro',Georgia,serif}
+
+/* GRIDS */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.grid-1{display:grid;grid-template-columns:1fr;gap:20px}
+
+/* TABLE */
+.values-table{width:100%;border-collapse:collapse;margin-top:20px;font-size:0.9rem}
+.values-table thead{background:#1A2E6E;color:#fff}
+.values-table th{padding:10px 14px;text-align:left;font-weight:600}
+.values-table td{padding:10px 14px;border-bottom:1px solid #E8ECF4}
+.values-table tr:nth-child(even){background:#F5F8FE}
+.values-table .hebrew-cell{font-size:1.15rem;color:#2A7A6F;direction:rtl;font-weight:600}
+
+/* MODULE CARDS */
+.module-card{background:#fff;border-radius:12px;box-shadow:0 2px 12px rgba(26,46,110,0.07);margin-bottom:24px;overflow:hidden}
+.module-header{background:linear-gradient(135deg,#1A2E6E 0%,#2952A3 100%);color:#fff;padding:20px 24px}
+.module-header h3{font-family:'Crimson Pro',Georgia,serif;font-size:1.35rem;margin-bottom:4px}
+.module-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.module-tag{background:rgba(201,162,39,0.3);color:#fff;font-size:0.7rem;padding:3px 10px;border-radius:20px;font-weight:600}
+.module-body{padding:8px 0}
+
+/* ACCORDION */
+.acc-content{display:none;padding:14px 24px 18px;font-size:0.9rem;line-height:1.65;color:#333;border-bottom:1px solid #EEF1F7}
+input[type="checkbox"]:checked + label + .acc-content{display:block}
+.acc-label{display:block;padding:12px 24px;cursor:pointer;font-weight:600;font-size:0.9rem;color:#2952A3;border-bottom:1px solid #EEF1F7;transition:background 0.15s}
+.acc-label:hover{background:#F5F8FE}
+input[type="checkbox"]:checked + .acc-label{color:#C9A227;background:#FAFBFE}
+
+/* HEBREW WORD CARDS */
+.hebrew-card{background:#fff;border-radius:12px;padding:22px;box-shadow:0 2px 12px rgba(26,46,110,0.07)}
+.hebrew-word{font-size:2.2rem;direction:rtl;color:#2A7A6F;font-weight:700;margin-bottom:4px;line-height:1.2}
+.hebrew-translit{color:#C9A227;font-weight:700;font-size:1.05rem}
+.hebrew-root{font-style:italic;color:#666;font-size:0.88rem;margin-bottom:8px}
+.sit-box{background:#EFF5FB;border-radius:8px;padding:12px 14px;margin-top:12px;font-size:0.85rem;color:#2952A3;font-style:italic;border-left:3px solid #2952A3}
+
+/* BRIDE TIMELINE */
+.bride-timeline{position:relative;padding-left:40px}
+.bride-timeline::before{content:'';position:absolute;left:16px;top:0;bottom:0;width:3px;background:linear-gradient(to bottom,#C9A227,#E8D48B)}
+.bride-scene{position:relative;margin-bottom:28px}
+.bride-scene-num{position:absolute;left:-40px;width:32px;height:32px;background:#C9A227;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.85rem}
+.bride-scene-title{font-family:'Crimson Pro',Georgia,serif;font-size:1.2rem;color:#1A2E6E;font-weight:700;margin-bottom:4px}
+.bride-scripture{color:#2A7A6F;font-style:italic;font-size:0.88rem;margin-bottom:8px}
+.bride-narrative{font-size:0.9rem;line-height:1.65;color:#333;margin-bottom:8px}
+.bride-hebrew{color:#2A7A6F;font-weight:700;font-size:0.95rem}
+.bride-reflect{background:#EFF5FB;border-radius:8px;padding:10px 14px;font-size:0.85rem;color:#2952A3;font-style:italic;margin-top:8px;border-left:3px solid #2952A3}
+
+/* REVIVAL SIGN CARDS */
+.sign-card{background:#fff;border-radius:12px;padding:20px;box-shadow:0 2px 12px rgba(26,46,110,0.07)}
+.sign-badge{display:inline-block;background:#1A2E6E;color:#fff;font-size:0.7rem;font-weight:700;padding:3px 10px;border-radius:12px;margin-bottom:8px}
+.sign-name{font-family:'Crimson Pro',Georgia,serif;font-size:1.15rem;color:#1A2E6E;font-weight:700;margin-bottom:6px}
+.sign-history{font-size:0.85rem;color:#555;line-height:1.55;margin-bottom:8px;padding-left:12px;border-left:3px solid #C9A227}
+.sign-apply{font-size:0.88rem;color:#2952A3;font-weight:600;font-style:italic}
+
+/* RESPONSIVE READING */
+.responsive-line{margin-bottom:8px;line-height:1.65}
+.leader-voice{color:#1A2E6E;font-style:italic;font-weight:600}
+.group-voice{color:#C9A227;font-weight:700}
+
+/* DISCIPLESHIP PATHWAY */
+.pathway-timeline{position:relative;padding-left:44px}
+.pathway-timeline::before{content:'';position:absolute;left:17px;top:0;bottom:0;width:3px;background:linear-gradient(to bottom,#C9A227,#E8D48B)}
+.stage-card{position:relative;margin-bottom:30px;background:#fff;border-radius:12px;padding:22px;box-shadow:0 2px 12px rgba(26,46,110,0.07)}
+.stage-num{position:absolute;left:-44px;width:34px;height:34px;background:#C9A227;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.9rem}
+.stage-title{font-family:'Crimson Pro',Georgia,serif;font-size:1.2rem;color:#1A2E6E;font-weight:700;margin-bottom:4px}
+.stage-scripture{color:#2A7A6F;font-style:italic;font-size:0.88rem;margin-bottom:10px}
+.stage-text{font-size:0.9rem;line-height:1.65;color:#333;margin-bottom:8px}
+.stage-learns{font-size:0.88rem;color:#555;margin-bottom:8px}
+.stage-reflect{background:#EFF5FB;border-radius:8px;padding:10px 14px;font-size:0.85rem;color:#2952A3;font-style:italic;border-left:3px solid #2952A3}
+
+/* DIAGRAMS */
+.symbol-card{background:#fff;border-radius:12px;padding:18px;box-shadow:0 2px 12px rgba(26,46,110,0.07)}
+.symbol-title{font-family:'Crimson Pro',Georgia,serif;font-size:1.05rem;color:#1A2E6E;font-weight:700;margin-bottom:4px}
+.symbol-hebrew{color:#2A7A6F;font-weight:700;font-size:1rem}
+.symbol-desc{font-size:0.88rem;color:#444;line-height:1.55;margin-top:6px}
+
+/* SCRIPTS */
+.script-card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 12px rgba(26,46,110,0.07);margin-bottom:24px}
+.script-header{padding:16px 22px;font-family:'Crimson Pro',Georgia,serif;font-size:1.15rem;font-weight:700;color:#fff}
+.script-body{padding:20px 24px;font-size:0.92rem;line-height:1.75}
+.voice-narrator{color:#2A7A6F;font-style:italic}
+.voice-leader{color:#1A2E6E;font-weight:700}
+.voice-group{color:#C9A227;font-weight:700}
+.voice-pause{color:#888;font-style:italic;text-align:center;margin:12px 0}
+
+/* HANDOUTS */
+.handout-card{background:#fff;border-radius:12px;padding:28px 32px;box-shadow:0 2px 12px rgba(26,46,110,0.07);margin-bottom:24px;border:1px solid #E0E6F0}
+.handout-title{font-family:'Crimson Pro',Georgia,serif;font-size:1.25rem;color:#1A2E6E;font-weight:700}
+.handout-subtitle{font-family:'Crimson Pro',Georgia,serif;font-size:1rem;color:#555;font-style:italic}
+.handout-hebrew-word{font-size:2.5rem;color:#2A7A6F;text-align:center;font-weight:700;margin:16px 0;direction:rtl}
+.handout-scripture{font-size:0.88rem;color:#2952A3;margin-bottom:4px}
+.handout-question{font-size:0.9rem;color:#333;margin-bottom:6px;line-height:1.55}
+.note-line{border-bottom:1px solid #ccc;height:28px;margin-bottom:2px}
+.handout-footer{font-size:0.75rem;color:#888;text-align:center;margin-top:18px;padding-top:12px;border-top:1px solid #E8ECF4}
+
+/* MOBILE MENU TOGGLE (CSS only) */
+#mobile-toggle{display:none}
+.mobile-menu-btn{display:none}
+
+/* FOOTER */
+.app-footer{text-align:center;padding:32px 20px 20px;font-size:0.78rem;color:#888}
+
+@media(max-width:768px){
+  #app{flex-direction:column}
+  #sidebar{width:100%;height:auto;position:relative;min-width:unset}
+  #sidebar-header{padding:14px 16px}
+  .nav-label{padding:11px 18px;font-size:13px}
+  #main{padding:20px 16px}
+  .grid-2{grid-template-columns:1fr}
+  .page-heading,.page-heading-hebrew{font-size:1.5rem}
+  .module-header{padding:16px 18px}
+  .acc-label{padding:10px 18px}
+  .acc-content{padding:12px 18px}
+  .bridge-explore-grid{grid-template-columns:1fr !important}
+}
+@media print{
+  #sidebar{display:none}
+  #main{padding:20px}
+  .section{display:block !important}
+}
+</style>
+</head>
+<body data-id="0">
+
+<app-icon data-id="1" hidden data-icon="book-open" data-palette="Blue"></app-icon>
+
+<!-- RADIO INPUTS — must be first children of body (after app-icon) -->
+<input data-id="2" type="radio" name="tab" id="t-identity" hidden>
+<input data-id="3" type="radio" name="tab" id="t-modules" hidden>
+<input data-id="4" type="radio" name="tab" id="t-hebrew" hidden>
+<input data-id="5" type="radio" name="tab" id="t-bride" hidden>
+<input data-id="6" type="radio" name="tab" id="t-revival" hidden>
+<input data-id="7" type="radio" name="tab" id="t-discipleship" hidden>
+<input data-id="8" type="radio" name="tab" id="t-diagrams" hidden>
+<input data-id="9" type="radio" name="tab" id="t-scripts" hidden>
+<input data-id="10" type="radio" name="tab" id="t-handouts" hidden>
+<input data-id="11" type="radio" name="tab" id="t-about" checked hidden>
+
+<div data-id="12" id="app">
+  <!-- SIDEBAR -->
+  <nav data-id="13" id="sidebar">
+    <div data-id="14" id="sidebar-header">
+      <div data-id="15" style="font-size:1.5rem">📖</div>
+      <div data-id="16">
+        <div data-id="17" style="font-weight:700;font-size:1rem;letter-spacing:0.01em">Mobile Ministry Library</div>
+        <div data-id="18" style="font-size:0.7rem;opacity:0.75;margin-top:2px">Rooted · Led · Sent</div>
+      </div>
+    </div>
+    <label data-id="19" for="t-about" class="nav-label">🌉 About</label>
+    <label data-id="20" for="t-identity" class="nav-label">🕎 Ministry Identity</label>
+    <label data-id="21" for="t-modules" class="nav-label">📖 Teaching Modules</label>
+    <label data-id="22" for="t-hebrew" class="nav-label">🌿 Hebrew Word Studies</label>
+    <label data-id="23" for="t-bride" class="nav-label">💍 Bride's Journey</label>
+    <label data-id="24" for="t-revival" class="nav-label">🔥 Revival Patterns</label>
+    <label data-id="25" for="t-discipleship" class="nav-label">🌱 Discipleship Pathway</label>
+    <label data-id="26" for="t-diagrams" class="nav-label">🌸 Visual Diagrams</label>
+    <label data-id="27" for="t-scripts" class="nav-label">📜 Scripts &amp; Blessings</label>
+    <label data-id="28" for="t-handouts" class="nav-label">🖨️ Printable Handouts</label>
+    <div data-id="29" style="flex:1"></div>
+    <div data-id="30" style="padding:16px 18px;font-size:0.7rem;opacity:0.5;border-top:1px solid rgba(255,255,255,0.1)">mobileministry.net</div>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <main data-id="31" id="main">
+
+    <!-- ============ ABOUT ============ -->
+    <div data-id="32" class="section" id="sec-about">
+      <div data-id="33" style="max-width:820px">
+
+        <!-- Hero Banner -->
+        <div data-id="34" style="background:linear-gradient(135deg,#1A2E6E 0%,#2952A3 100%);border-radius:12px;padding:40px 36px;margin-bottom:32px;position:relative;overflow:hidden">
+          <div data-id="35" style="position:absolute;top:-20px;right:-20px;font-size:120px;opacity:0.07">🌉</div>
+          <div data-id="36" style="font-size:2.4rem;font-family:Georgia,serif;color:#C9A227;font-weight:700;margin-bottom:8px">Mobile Ministry</div>
+          <div data-id="37" style="font-size:1.3rem;color:#ffffff;font-family:Georgia,serif;margin-bottom:16px">The Bridge Calling</div>
+          <div data-id="38" style="width:60px;height:3px;background:#C9A227;margin-bottom:20px;border-radius:2px"></div>
+          <p data-id="39" style="color:#dce8f8;font-size:1.05rem;line-height:1.75;max-width:660px">Mobile Ministry exists to carry the presence, truth, and love of Messiah across every divide — connecting Israel and the Nations, Word and Spirit, Heaven and Earth. We are a teaching and discipleship ministry equipping believers to walk in covenant identity, live in the power of the Spirit, and carry the Gospel wherever they go.</p>
+        </div>
+
+        <!-- Mission & Vision -->
+        <div data-id="40" style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:28px">
+
+          <div data-id="41" style="background:#fff;border-radius:10px;padding:28px;box-shadow:0 2px 12px rgba(26,46,110,0.10);border-top:4px solid #C9A227">
+            <div data-id="42" style="font-size:1.5rem;margin-bottom:8px">✨</div>
+            <div data-id="43" style="font-size:1.1rem;font-weight:700;color:#1A2E6E;font-family:Georgia,serif;margin-bottom:14px">Our Mission</div>
+            <p data-id="44" style="color:#333;line-height:1.75;font-size:0.95rem">We build living bridges of revelation and relationship — connecting the Root and the Harvest through the presence of the Holy Spirit, the truth of Scripture, and the love of Messiah.</p>
+            <p data-id="45" style="color:#333;line-height:1.75;font-size:0.95rem;margin-top:10px">We equip believers to minister to the Lord first, walk in covenant identity, and carry His transforming presence into homes, cities, and nations.</p>
+          </div>
+
+          <div data-id="46" style="background:#fff;border-radius:10px;padding:28px;box-shadow:0 2px 12px rgba(26,46,110,0.10);border-top:4px solid #2952A3">
+            <div data-id="47" style="font-size:1.5rem;margin-bottom:8px">🌅</div>
+            <div data-id="48" style="font-size:1.1rem;font-weight:700;color:#1A2E6E;font-family:Georgia,serif;margin-bottom:14px">Our Vision</div>
+            <p data-id="49" style="color:#333;line-height:1.75;font-size:0.95rem">To see a global fellowship of Spirit-filled believers walking as one new man in Messiah — rooted in Israel's covenant, radiant with the Spirit's power, and mobilized to reveal His Kingdom in every sphere of life.</p>
+            <p data-id="50" style="color:#333;line-height:1.75;font-size:0.95rem;margin-top:10px">We envision digital bridges carrying teaching, worship, and revelation across cultures and generations until the earth is filled with His glory.</p>
+          </div>
+        </div>
+
+        <!-- Core Values -->
+        <div data-id="51" style="background:#fff;border-radius:10px;padding:32px;box-shadow:0 2px 12px rgba(26,46,110,0.10);margin-bottom:28px">
+          <div data-id="52" style="font-size:1.5rem;margin-bottom:6px">🌿</div>
+          <div data-id="53" style="font-size:1.2rem;font-weight:700;color:#1A2E6E;font-family:Georgia,serif;margin-bottom:20px">Core Values</div>
+          <div data-id="54" style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+            <div data-id="55" style="background:#F0F4FB;border-radius:8px;padding:16px;border-left:3px solid #C9A227">
+              <div data-id="56" style="font-weight:700;color:#1A2E6E;font-size:0.95rem;margin-bottom:4px">Presence First</div>
+              <div data-id="57" style="color:#555;font-size:0.88rem">Everything begins with ministering to the Lord.</div>
+            </div>
+            <div data-id="58" style="background:#F0F4FB;border-radius:8px;padding:16px;border-left:3px solid #C9A227">
+              <div data-id="59" style="font-weight:700;color:#1A2E6E;font-size:0.95rem;margin-bottom:4px">Covenant Identity</div>
+              <div data-id="60" style="color:#555;font-size:0.88rem">Rooted in the story of Israel and fulfilled in Messiah.</div>
+            </div>
+            <div data-id="61" style="background:#F0F4FB;border-radius:8px;padding:16px;border-left:3px solid #2952A3">
+              <div data-id="62" style="font-weight:700;color:#1A2E6E;font-size:0.95rem;margin-bottom:4px">Word &amp; Spirit Together</div>
+              <div data-id="63" style="color:#555;font-size:0.88rem">Biblical depth and Spirit-empowered living.</div>
+            </div>
+            <div data-id="64" style="background:#F0F4FB;border-radius:8px;padding:16px;border-left:3px solid #2952A3">
+              <div data-id="65" style="font-weight:700;color:#1A2E6E;font-size:0.95rem;margin-bottom:4px">Bridge-Building Love</div>
+              <div data-id="66" style="color:#555;font-size:0.88rem">Unity between Israel and the Nations, generations, and cultures.</div>
+            </div>
+            <div data-id="67" style="background:#F0F4FB;border-radius:8px;padding:16px;border-left:3px solid #2A7A6F">
+              <div data-id="68" style="font-weight:700;color:#1A2E6E;font-size:0.95rem;margin-bottom:4px">Transformation Through Discipleship</div>
+              <div data-id="69" style="color:#555;font-size:0.88rem">Lives renewed by the Spirit and shaped by the Word.</div>
+            </div>
+            <div data-id="70" style="background:#F0F4FB;border-radius:8px;padding:16px;border-left:3px solid #2A7A6F">
+              <div data-id="71" style="font-weight:700;color:#1A2E6E;font-size:0.95rem;margin-bottom:4px">Mobile Mission</div>
+              <div data-id="72" style="color:#555;font-size:0.88rem">Carrying the presence of God into everyday life.</div>
+            </div>
+            <div data-id="73" style="background:#F0F4FB;border-radius:8px;padding:16px;border-left:3px solid #C9A227">
+              <div data-id="74" style="font-weight:700;color:#1A2E6E;font-size:0.95rem;margin-bottom:4px">Revelation &amp; Obedience</div>
+              <div data-id="75" style="color:#555;font-size:0.88rem">Hearing His voice and responding with courage.</div>
+            </div>
+            <div data-id="76" style="background:#F0F4FB;border-radius:8px;padding:16px;border-left:3px solid #C9A227">
+              <div data-id="77" style="font-weight:700;color:#1A2E6E;font-size:0.95rem;margin-bottom:4px">Global Awakening</div>
+              <div data-id="78" style="color:#555;font-size:0.88rem">Every tribe and tongue reconciled in Messiah.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Why Mobile Ministry -->
+        <div data-id="79" style="background:linear-gradient(135deg,#0f1e4a 0%,#1A2E6E 100%);border-radius:10px;padding:32px;margin-bottom:28px;text-align:center">
+          <div data-id="80" style="font-size:1.5rem;margin-bottom:10px">📱</div>
+          <div data-id="81" style="font-size:1.2rem;font-weight:700;color:#C9A227;font-family:Georgia,serif;margin-bottom:18px">Why Mobile Ministry?</div>
+          <div data-id="82" style="font-size:1.35rem;color:#ffffff;font-family:Georgia,serif;line-height:2;margin-bottom:18px">
+            Because the Gospel <em data-id="83">moves.</em><br data-id="84">
+            It <em data-id="85">travels.</em><br data-id="86">
+            It crosses boundaries.<br data-id="87">
+            It reaches people where they are.
+          </div>
+          <p data-id="88" style="color:#B8CCE8;line-height:1.75;max-width:580px;margin:0 auto;font-size:0.95rem">Mobile Ministry creates digital teaching libraries, prophetic visuals, and Spirit-led discipleship tools that travel with believers into their daily lives — resources that fit in a pocket but carry eternal weight.</p>
+        </div>
+
+        <!-- What We Do -->
+        <div data-id="89" style="background:#fff;border-radius:10px;padding:32px;box-shadow:0 2px 12px rgba(26,46,110,0.10);margin-bottom:28px">
+          <div data-id="90" style="font-size:1.5rem;margin-bottom:6px">🌍</div>
+          <div data-id="91" style="font-size:1.2rem;font-weight:700;color:#1A2E6E;font-family:Georgia,serif;margin-bottom:20px">What We Do</div>
+          <div data-id="92" style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+            <div data-id="93" style="display:flex;gap:14px;align-items:flex-start">
+              <div data-id="94" style="background:#1A2E6E;color:#C9A227;border-radius:8px;padding:10px 12px;font-size:1.2rem;flex-shrink:0">📚</div>
+              <div data-id="95"><div data-id="96" style="font-weight:700;color:#1A2E6E;margin-bottom:4px">Digital Teaching Libraries</div><div data-id="97" style="color:#555;font-size:0.9rem">Structured, Spirit-filled resources for global discipleship.</div></div>
+            </div>
+            <div data-id="98" style="display:flex;gap:14px;align-items:flex-start">
+              <div data-id="99" style="background:#1A2E6E;color:#C9A227;border-radius:8px;padding:10px 12px;font-size:1.2rem;flex-shrink:0">🎨</div>
+              <div data-id="100"><div data-id="101" style="font-weight:700;color:#1A2E6E;margin-bottom:4px">Prophetic Visuals &amp; Diagrams</div><div data-id="102" style="color:#555;font-size:0.9rem">Images that teach, reveal, and awaken — like The Bridge Calling.</div></div>
+            </div>
+            <div data-id="103" style="display:flex;gap:14px;align-items:flex-start">
+              <div data-id="104" style="background:#1A2E6E;color:#C9A227;border-radius:8px;padding:10px 12px;font-size:1.2rem;flex-shrink:0">📱</div>
+              <div data-id="105"><div data-id="106" style="font-weight:700;color:#1A2E6E;margin-bottom:4px">Mobile Discipleship Tools</div><div data-id="107" style="color:#555;font-size:0.9rem">Guides, outlines, and resources for on-the-go growth.</div></div>
+            </div>
+            <div data-id="108" style="display:flex;gap:14px;align-items:flex-start">
+              <div data-id="109" style="background:#1A2E6E;color:#C9A227;border-radius:8px;padding:10px 12px;font-size:1.2rem;flex-shrink:0">📖</div>
+              <div data-id="110"><div data-id="111" style="font-weight:700;color:#1A2E6E;margin-bottom:4px">Spirit-Led Education</div><div data-id="112" style="color:#555;font-size:0.9rem">Teaching that blends Hebrew foundations, prophetic insight, and practical discipleship.</div></div>
+            </div>
+            <div data-id="113" style="display:flex;gap:14px;align-items:flex-start;grid-column:span 2">
+              <div data-id="114" style="background:#1A2E6E;color:#C9A227;border-radius:8px;padding:10px 12px;font-size:1.2rem;flex-shrink:0">🌐</div>
+              <div data-id="115"><div data-id="116" style="font-weight:700;color:#1A2E6E;margin-bottom:4px">Global Equipping</div><div data-id="117" style="color:#555;font-size:0.9rem">Resources that can be shared, taught, and multiplied across nations.</div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Our Heart -->
+        <div data-id="118" style="background:linear-gradient(135deg,#1A2E6E 0%,#2A7A6F 100%);border-radius:10px;padding:36px;text-align:center">
+          <div data-id="119" style="font-size:1.5rem;margin-bottom:12px">🙌</div>
+          <div data-id="120" style="font-size:1.2rem;font-weight:700;color:#C9A227;font-family:Georgia,serif;margin-bottom:20px">Our Heart</div>
+          <div data-id="121" style="font-size:1.2rem;color:#ffffff;font-family:Georgia,serif;line-height:2.2;margin-bottom:16px">
+            We are bridge-bearers.<br data-id="122">
+            We stand between the Root and the Harvest.<br data-id="123">
+            We carry the light of Messiah across every divide.<br data-id="124">
+            We prepare the way for His return.
+          </div>
+          <div data-id="125" style="width:80px;height:2px;background:#C9A227;margin:0 auto 16px;border-radius:2px"></div>
+          <div data-id="126" style="color:#B8CCE8;font-size:0.9rem;letter-spacing:0.08em">mobileministry.net</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ============ IDENTITY ============ -->
+    <div data-id="127" class="section" id="sec-identity">
+      <h1 data-id="128" class="page-heading"><span data-id="129" class="page-heading-hebrew">מי אנחנו</span> — Who We Are</h1>
+      <p data-id="130" class="section-subtitle">Mobile Ministry — Leonard's teaching library for Spirit-anchored, Hebrew-rooted discipleship.</p>
+
+      <div data-id="131" class="card-gold-border" style="margin-bottom:28px">
+        <p data-id="132" style="font-family:'Crimson Pro',Georgia,serif;font-size:1.05rem;line-height:1.7;color:#333">
+          To ignite Spirit-anchored, Hebrew-rooted, visually immersive discipleship — equipping every believer to walk as a true Talmid of Yeshua, alive in the Spirit, moving in the Kingdom, and radiant as His Bride.
+        </p>
+      </div>
+
+      <div data-id="133" class="grid-2" style="margin-bottom:28px">
+        <div data-id="134" class="card card-navy-top">
+          <div data-id="135" style="font-size:1.3rem;margin-bottom:6px">🔥</div>
+          <h3 data-id="136" style="font-family:'Crimson Pro',Georgia,serif;font-size:1.1rem;color:#1A2E6E;margin-bottom:6px">Rabbinic Voice</h3>
+          <p data-id="137" style="font-size:0.88rem;line-height:1.6;color:#444">Our teaching flows from the Hebraic heart of Scripture. We honor the Aleph-Bet, the weight of names, the layered meaning of Torah, and the Spirit who illuminates it all.</p>
+        </div>
+        <div data-id="138" class="card card-navy-top">
+          <div data-id="139" style="font-size:1.3rem;margin-bottom:6px">🎭</div>
+          <h3 data-id="140" style="font-family:'Crimson Pro',Georgia,serif;font-size:1.1rem;color:#1A2E6E;margin-bottom:6px">Immersive Experience</h3>
+          <p data-id="141" style="font-size:0.88rem;line-height:1.6;color:#444">Every session is a journey. Learners are not audiences — they are participants in a living story.</p>
+        </div>
+        <div data-id="142" class="card card-navy-top">
+          <div data-id="143" style="font-size:1.3rem;margin-bottom:6px">💛</div>
+          <h3 data-id="144" style="font-family:'Crimson Pro',Georgia,serif;font-size:1.1rem;color:#1A2E6E;margin-bottom:6px">Covenant Community</h3>
+          <p data-id="145" style="font-size:0.88rem;line-height:1.6;color:#444">We build Talmidim (disciples), not church-goers. We form covenant communities that carry the Kingdom wherever they are sent.</p>
+        </div>
+        <div data-id="146" class="card card-navy-top">
+          <div data-id="147" style="font-size:1.3rem;margin-bottom:6px">🎨</div>
+          <h3 data-id="148" style="font-family:'Crimson Pro',Georgia,serif;font-size:1.1rem;color:#1A2E6E;margin-bottom:6px">Visual Storytelling</h3>
+          <p data-id="149" style="font-size:0.88rem;line-height:1.6;color:#444">We paint with Scripture. Diagrams, symbols, and sacred imagery are doors into deeper understanding.</p>
+        </div>
+      </div>
+
+      <h2 data-id="150" style="font-family:'Crimson Pro',Georgia,serif;font-size:1.4rem;color:#2952A3;margin-bottom:14px">Core Values</h2>
+      <div data-id="151" style="overflow-x:auto">
+        <table data-id="152" class="values-table">
+          <thead data-id="153">
+            <tr data-id="154"><th data-id="155">Hebrew</th><th data-id="156">Word</th><th data-id="157">Meaning</th><th data-id="158">Application</th></tr>
+          </thead>
+          <tbody data-id="159">
+            <tr data-id="160"><td data-id="161" class="hebrew-cell">אמת</td><td data-id="162">Emet</td><td data-id="163">Truth</td><td data-id="164">We teach with integrity and depth</td></tr>
+            <tr data-id="165"><td data-id="166" class="hebrew-cell">רוּחַ</td><td data-id="167">Ruach</td><td data-id="168">Spirit / Wind</td><td data-id="169">We move in the Spirit's rhythm</td></tr>
+            <tr data-id="170"><td data-id="171" class="hebrew-cell">בְּרִית</td><td data-id="172">Berit</td><td data-id="173">Covenant</td><td data-id="174">We build lasting covenant community</td></tr>
+            <tr data-id="175"><td data-id="176" class="hebrew-cell">שָׁלוֹם</td><td data-id="177">Shalom</td><td data-id="178">Peace / Wholeness</td><td data-id="179">We pursue whole-life transformation</td></tr>
+            <tr data-id="180"><td data-id="181" class="hebrew-cell">תַּלְמִיד</td><td data-id="182">Talmid</td><td data-id="183">Disciple</td><td data-id="184">We form Yeshua's learners</td></tr>
+            <tr data-id="185"><td data-id="186" class="hebrew-cell">חֶסֶד</td><td data-id="187">Hesed</td><td data-id="188">Covenant Love</td><td data-id="189">We extend loyal, steadfast love</td></tr>
+            <tr data-id="190"><td data-id="191" class="hebrew-cell">כָּבוֹד</td><td data-id="192">Kavod</td><td data-id="193">Glory</td><td data-id="194">We live for His glory, not our own</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ============ MODULES ============ -->
+    <div data-id="195" class="section" id="sec-modules">
+      <h1 data-id="196" class="page-heading">📖 Teaching Modules</h1>
+      <p data-id="197" class="section-subtitle">Six comprehensive teaching modules, each with accordion tabs for deep study.</p>
+
+      <!-- MODULE 1: The Bridge Calling -->
+      <div data-id="198" style="background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 2px 12px rgba(26,46,110,0.12);margin-bottom:20px;border-top:4px solid #C9A227">
+        <div data-id="199" style="background:#0f1535;padding:22px 24px">
+          <div data-id="200" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:8px">
+            <span data-id="201" style="background:#C9A227;color:#0f1535;font-size:0.72rem;font-weight:700;padding:3px 10px;border-radius:20px;letter-spacing:0.05em">MODULE 1</span>
+            <span data-id="202" style="background:rgba(255,255,255,0.1);color:#B8CCE8;font-size:0.72rem;padding:3px 10px;border-radius:20px">Foundational</span>
+            <span data-id="203" style="background:rgba(255,255,255,0.1);color:#B8CCE8;font-size:0.72rem;padding:3px 10px;border-radius:20px">60–90 min</span>
+            <span data-id="204" style="background:rgba(255,255,255,0.1);color:#B8CCE8;font-size:0.72rem;padding:3px 10px;border-radius:20px">All Levels</span>
+          </div>
+          <div data-id="205" style="font-size:1.2rem;font-weight:700;color:#ffffff;font-family:Georgia,serif">🌉 The Bridge Calling</div>
+          <div data-id="206" style="font-size:0.9rem;color:#C9A227;margin-top:2px">הַגֶּשֶׁר — Israel · Messiah · The Nations</div>
+        </div>
+
+        <!-- Overview tab -->
+        <input data-id="207" type="checkbox" id="bc-overview" hidden>
+        <label data-id="208" for="bc-overview" class="acc-label" style="display:block;padding:13px 22px;cursor:pointer;border-bottom:1px solid #f0f0f0;font-weight:600;color:#1A2E6E;background:#fafafa">▸ Overview</label>
+        <div data-id="209" class="acc-content" style="display:none;padding:18px 22px;border-bottom:1px solid #f0f0f0;color:#333;line-height:1.75;font-size:0.93rem">
+          Mobile Ministry exists to carry the presence, truth, and love of Messiah across every divide — connecting Israel and the Nations, Word and Spirit, Heaven and Earth. The Bridge Calling is our foundational identity: Messiah is the Bridge, Israel is the Root, and the Nations are the Harvest. This session establishes the entire theological vision that undergirds every other module.
+        </div>
+
+        <!-- 10-Slide Outline tab -->
+        <input data-id="210" type="checkbox" id="bc-outline" hidden>
+        <label data-id="211" for="bc-outline" class="acc-label" style="display:block;padding:13px 22px;cursor:pointer;border-bottom:1px solid #f0f0f0;font-weight:600;color:#1A2E6E;background:#fafafa">▸ 10-Slide Outline</label>
+        <div data-id="212" class="acc-content" style="display:none;padding:18px 22px;border-bottom:1px solid #f0f0f0;color:#333;line-height:1.85;font-size:0.93rem">
+          <ol data-id="213" style="padding-left:20px">
+            <li data-id="214" style="margin-bottom:8px"><strong data-id="215">Title</strong> — "The Bridge Calling: Israel · Messiah · The Nations"</li>
+            <li data-id="216" style="margin-bottom:8px"><strong data-id="217">The Question</strong> — "What if the divide between Israel and the Nations was never meant to be permanent?" — Ephesians 2:14</li>
+            <li data-id="218" style="margin-bottom:8px"><strong data-id="219">The Root — Israel</strong> — The Covenant, the Torah, the Promises. Romans 11:18: "You do not support the root, the root supports you."</li>
+            <li data-id="220" style="margin-bottom:8px"><strong data-id="221">The Chasm</strong> — What divides us: centuries of hostility, the dividing wall. Ephesians 2:11–13</li>
+            <li data-id="222" style="margin-bottom:8px"><strong data-id="223">The Bridge — Messiah</strong> — The Cross as the meeting place of Heaven &amp; Earth, Israel &amp; the Nations. 1 Timothy 2:5</li>
+            <li data-id="224" style="margin-bottom:8px"><strong data-id="225">The Four Pillars</strong> — Word &amp; Spirit · Covenant Love (Hesed) · The Gospel · Holy Spirit</li>
+            <li data-id="226" style="margin-bottom:8px"><strong data-id="227">The Nations — The Harvest</strong> — 7,000+ unreached people groups. Isaiah 49:6 · Revelation 7:9</li>
+            <li data-id="228" style="margin-bottom:8px"><strong data-id="229">One New Man</strong> — Not replacement — fulfillment. One new humanity in Messiah. Ephesians 2:15–16</li>
+            <li data-id="230" style="margin-bottom:8px"><strong data-id="231">Our Response</strong> — 7 responses of every bridge-bearer: Minister · Know the Root · Walk in the Spirit · Love with Hesed · Go · Go Mobile · Be the Bridge</li>
+            <li data-id="232" style="margin-bottom:8px"><strong data-id="233">Declaration</strong> — "We are bridge-bearers. We stand between the Root and the Harvest. We carry the light of Messiah across every divide. We prepare the way for His return."</li>
+          </ol>
+        </div>
+
+        <!-- Leader Notes tab -->
+        <input data-id="234" type="checkbox" id="bc-notes" hidden>
+        <label data-id="235" for="bc-notes" class="acc-label" style="display:block;padding:13px 22px;cursor:pointer;border-bottom:1px solid #f0f0f0;font-weight:600;color:#1A2E6E;background:#fafafa">▸ Leader Notes</label>
+        <div data-id="236" class="acc-content" style="display:none;padding:18px 22px;border-bottom:1px solid #f0f0f0;color:#333;line-height:1.75;font-size:0.93rem">
+          <p data-id="237" style="margin-bottom:10px">Begin with the opening question on Slide 2 — let it land. Do not answer it immediately. Give the room 30 seconds of silence before continuing.</p>
+          <p data-id="238" style="margin-bottom:10px">The Chasm slide (Slide 4) may stir deep emotion — especially for Jewish believers or those with personal experience of division. Create space for that.</p>
+          <p data-id="239" style="margin-bottom:10px">The Bridge Calling is an identity declaration, not just theology. By the end, participants should feel called and commissioned, not just informed.</p>
+          <p data-id="240" style="margin-bottom:10px">Close with the Declaration (Slide 10) read aloud together as a group, slowly, with music if possible. Consider having everyone stand.</p>
+          <p data-id="241">Display the Bridge Calling diagram on a screen or print it as a handout — it is the visual anchor for the entire session.</p>
+        </div>
+
+        <!-- Reflection Questions tab -->
+        <input data-id="242" type="checkbox" id="bc-reflect" hidden>
+        <label data-id="243" for="bc-reflect" class="acc-label" style="display:block;padding:13px 22px;cursor:pointer;border-bottom:1px solid #f0f0f0;font-weight:600;color:#1A2E6E;background:#fafafa">▸ Reflection Questions</label>
+        <div data-id="244" class="acc-content" style="display:none;padding:18px 22px;border-bottom:1px solid #f0f0f0;color:#333;line-height:1.75;font-size:0.93rem">
+          <ol data-id="245" style="padding-left:20px">
+            <li data-id="246" style="margin-bottom:10px">What has your relationship with the story of Israel been — and how does this session reshape it?</li>
+            <li data-id="247" style="margin-bottom:10px">Where do you see "dividing walls" in your own community, family, or culture — and what would it look like to be a bridge-bearer there?</li>
+            <li data-id="248" style="margin-bottom:10px">What does it mean to you personally that Messiah is the Bridge — not just a teacher or example?</li>
+            <li data-id="249" style="margin-bottom:10px">Which of the 7 bridge-bearer responses is the Spirit highlighting most for you right now?</li>
+            <li data-id="250" style="margin-bottom:10px">If you took the Bridge Calling seriously this week — what would change in how you live, speak, and go?</li>
+          </ol>
+        </div>
+
+        <!-- Scripture Anchors tab -->
+        <input data-id="251" type="checkbox" id="bc-scripture" hidden>
+        <label data-id="252" for="bc-scripture" class="acc-label" style="display:block;padding:13px 22px;cursor:pointer;border-bottom:1px solid #f0f0f0;font-weight:600;color:#1A2E6E;background:#fafafa">▸ Scripture Anchors</label>
+        <div data-id="253" class="acc-content" style="display:none;padding:18px 22px;border-bottom:1px solid #f0f0f0;color:#333;line-height:2;font-size:0.93rem">
+          Ephesians 2:14–16 | Romans 11:17–18 | Isaiah 49:6 | Matthew 28:19 | 1 Timothy 2:5 | Revelation 7:9 | Romans 9:4–5 | Acts 1:8 | Isaiah 62:10 | Habakkuk 2:14 | Ezekiel 22:30 | Galatians 3:28
+        </div>
+
+        <!-- Hebrew Moments tab -->
+        <input data-id="254" type="checkbox" id="bc-hebrew" hidden>
+        <label data-id="255" for="bc-hebrew" class="acc-label" style="display:block;padding:13px 22px;cursor:pointer;font-weight:600;color:#1A2E6E;background:#fafafa">▸ Hebrew Moments</label>
+        <div data-id="256" class="acc-content" style="display:none;padding:18px 22px;color:#333;line-height:2;font-size:0.93rem">
+          <div data-id="257" style="direction:rtl;font-size:1.4rem;color:#2A7A6F;margin-bottom:2px">גֶּשֶׁר</div><strong data-id="258">Gesher</strong> — Bridge, Crossing<br data-id="259"><br data-id="260">
+          <div data-id="261" style="direction:rtl;font-size:1.4rem;color:#2A7A6F;margin-bottom:2px">חֶסֶד</div><strong data-id="262">Hesed</strong> — Covenant Love, Loyal Love<br data-id="263"><br data-id="264">
+          <div data-id="265" style="direction:rtl;font-size:1.4rem;color:#2A7A6F;margin-bottom:2px">שָׁלוֹם</div><strong data-id="266">Shalom</strong> — Peace, Wholeness, Nothing Missing<br data-id="267"><br data-id="268">
+          <div data-id="269" style="direction:rtl;font-size:1.4rem;color:#2A7A6F;margin-bottom:2px">אֶחָד</div><strong data-id="270">Echad</strong> — One, Unity (as in the Shema: "The LORD is One")<br data-id="271"><br data-id="272">
+          <div data-id="273" style="direction:rtl;font-size:1.4rem;color:#2A7A6F;margin-bottom:2px">קָצִיר</div><strong data-id="274">Katsir</strong> — Harvest, Reaping
+        </div>
+      </div>
+
+      <!-- MODULE 2 -->
+      <div data-id="275" class="module-card">
+        <div data-id="276" class="module-header">
+          <h3 data-id="277">Module 2: Life in the Spirit — חיים ברוח</h3>
+          <div data-id="278" class="module-tags">
+            <span data-id="279" class="module-tag">Foundational</span>
+            <span data-id="280" class="module-tag">60–90 min</span>
+            <span data-id="281" class="module-tag">All Levels</span>
+          </div>
+        </div>
+        <div data-id="282" class="module-body">
+          <input data-id="283" type="checkbox" id="acc-m1-overview" hidden>
+          <label data-id="284" for="acc-m1-overview" class="acc-label">▸ Overview</label>
+          <div data-id="285" class="acc-content">
+            <p data-id="286">The Seven-Petal diagram maps Spirit-filled life across 7 dimensions, radiating from the center: the Fellowship of the Holy Spirit (2 Cor. 13:14). This session invites learners to see the Ruach not as an add-on but as the breath in every sacred space.</p>
+          </div>
+
+          <input data-id="287" type="checkbox" id="acc-m1-outline" hidden>
+          <label data-id="288" for="acc-m1-outline" class="acc-label">▸ 10-Slide Outline</label>
+          <div data-id="289" class="acc-content">
+            <ol data-id="290" style="padding-left:18px;line-height:1.8">
+              <li data-id="291">Title — "The Seven Petals of Ruach HaKodesh"</li>
+              <li data-id="292">The Center — 2 Cor. 13:14 — "The Ruach is not a force. He is fellowship."</li>
+              <li data-id="293">Petal 1: Realm — Romans 8</li>
+              <li data-id="294">Petal 2: Relationship — Eph. 2–4</li>
+              <li data-id="295">Petal 3: Transformation — Gal. 5</li>
+              <li data-id="296">Petal 4: Prayer — Eph. 6; Rom. 8:26</li>
+              <li data-id="297">Petal 5: Worship — John 4</li>
+              <li data-id="298">Petal 6: Revelation — Rev. 1</li>
+              <li data-id="299">Petal 7: Mission — Luke 4; Acts 1:8</li>
+              <li data-id="300">Response — "Which petal is calling you deeper?"</li>
+            </ol>
+          </div>
+
+          <input data-id="301" type="checkbox" id="acc-m1-leader" hidden>
+          <label data-id="302" for="acc-m1-leader" class="acc-label">▸ Leader Notes</label>
+          <div data-id="303" class="acc-content">
+            <p data-id="304">Begin with the center — not the petals. Pause 30 seconds after each petal. Do NOT rush reflection. Print the Seven-Petal handout before the session. Display on projector as you teach each petal.</p>
+          </div>
+
+          <input data-id="305" type="checkbox" id="acc-m1-reflect" hidden>
+          <label data-id="306" for="acc-m1-reflect" class="acc-label">▸ Reflection Questions</label>
+          <div data-id="307" class="acc-content">
+            <ol data-id="308" style="padding-left:18px;line-height:1.9">
+              <li data-id="309">Which petal feels most alive right now?</li>
+              <li data-id="310">Which petal feels dormant?</li>
+              <li data-id="311">The center is fellowship, not power — how does this reframe your relationship with the Holy Spirit?</li>
+              <li data-id="312">Where do you sense the Ruach most in daily life?</li>
+              <li data-id="313">Write a personal invitation to the Holy Spirit for one area of your life.</li>
+            </ol>
+          </div>
+
+          <input data-id="314" type="checkbox" id="acc-m1-scripture" hidden>
+          <label data-id="315" for="acc-m1-scripture" class="acc-label">▸ Scripture Anchors</label>
+          <div data-id="316" class="acc-content">
+            <p data-id="317" style="color:#2A7A6F;line-height:1.9">Romans 8:1–17 · 2 Corinthians 13:14 · Galatians 5:22–25 · Ephesians 4:1–6 · Jude 20 · John 4:23–24 · Revelation 1:10 · Luke 4:18 · Acts 1:8</p>
+          </div>
+
+          <input data-id="318" type="checkbox" id="acc-m1-hebrew" hidden>
+          <label data-id="319" for="acc-m1-hebrew" class="acc-label">▸ Hebrew Moments</label>
+          <div data-id="320" class="acc-content">
+            <p data-id="321"><strong data-id="322" style="color:#2A7A6F">רוּחַ</strong> (Ruach) — Spirit, Wind, Breath</p>
+            <p data-id="323"><strong data-id="324" style="color:#2A7A6F">קֹדֶשׁ</strong> (Kodesh) — Holy, Set-Apart</p>
+            <p data-id="325"><strong data-id="326" style="color:#2A7A6F">κοινωνία</strong> (Koinonia) — Fellowship, Communion</p>
+            <p data-id="327"><strong data-id="328" style="color:#2A7A6F">καρπός</strong> (Karpos) — Fruit</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- MODULE 3 -->
+      <div data-id="329" class="module-card">
+        <div data-id="330" class="module-header">
+          <h3 data-id="331">Module 3: The Bride's Journey — מסע הכלה</h3>
+          <div data-id="332" class="module-tags">
+            <span data-id="333" class="module-tag">Identity &amp; Formation</span>
+            <span data-id="334" class="module-tag">75 min</span>
+            <span data-id="335" class="module-tag">All Believers</span>
+          </div>
+        </div>
+        <div data-id="336" class="module-body">
+          <input data-id="337" type="checkbox" id="acc-m2-overview" hidden>
+          <label data-id="338" for="acc-m2-overview" class="acc-label">▸ Overview</label>
+          <div data-id="339" class="acc-content">
+            <p data-id="340">The Bride is not a metaphor — she is a declaration about identity. Every believer is called into the Bride's Journey: from orphan to betrothed, from wandering to prepared, from hidden to revealed. Seven scenes of transformation.</p>
+          </div>
+
+          <input data-id="341" type="checkbox" id="acc-m2-outline" hidden>
+          <label data-id="342" for="acc-m2-outline" class="acc-label">▸ 10-Slide Outline</label>
+          <div data-id="343" class="acc-content">
+            <ol data-id="344" style="padding-left:18px;line-height:1.8">
+              <li data-id="345">Title — "The Bride's Journey"</li>
+              <li data-id="346">Scene 1: Awakening — Song of Sol. 2:10</li>
+              <li data-id="347">Scene 2: Wilderness — Hosea 2:14</li>
+              <li data-id="348">Scene 3: Betrothal — Ruth 3:9</li>
+              <li data-id="349">Scene 4: Preparation — Esther 2:12</li>
+              <li data-id="350">Scene 5: Garments — Isaiah 61:10</li>
+              <li data-id="351">Scene 6: Waiting — Matt. 25:1–13</li>
+              <li data-id="352">Scene 7: Revealing — Rev. 21:2</li>
+              <li data-id="353">Reflection — "Where are you in the Journey?"</li>
+              <li data-id="354">Blessing — "You are seen. You are chosen."</li>
+            </ol>
+          </div>
+
+          <input data-id="355" type="checkbox" id="acc-m2-leader" hidden>
+          <label data-id="356" for="acc-m2-leader" class="acc-label">▸ Leader Notes</label>
+          <div data-id="357" class="acc-content">
+            <p data-id="358">This module is deeply emotional. Create physical stations for each scene in retreat settings — candles, fabric, fragrance. Create space for tears at the Wilderness scene. End with the commissioning blessing read slowly, with music if possible.</p>
+          </div>
+
+          <input data-id="359" type="checkbox" id="acc-m2-reflect" hidden>
+          <label data-id="360" for="acc-m2-reflect" class="acc-label">▸ Reflection Questions</label>
+          <div data-id="361" class="acc-content">
+            <ol data-id="362" style="padding-left:18px;line-height:1.9">
+              <li data-id="363">Which of the 7 scenes speaks to your current season?</li>
+              <li data-id="364">How does knowing you are betrothed — already chosen — change how you live?</li>
+              <li data-id="365">What area of preparation is the Spirit calling you into?</li>
+              <li data-id="366">Is your lamp burning? What fills your oil?</li>
+              <li data-id="367">What will it mean to hear "Well done, radiant one"?</li>
+            </ol>
+          </div>
+
+          <input data-id="368" type="checkbox" id="acc-m2-scripture" hidden>
+          <label data-id="369" for="acc-m2-scripture" class="acc-label">▸ Scripture Anchors</label>
+          <div data-id="370" class="acc-content">
+            <p data-id="371" style="color:#2A7A6F;line-height:1.9">Song of Solomon 2:10 · Hosea 2:14 · Ruth 3:9 · Esther 2:12 · Isaiah 61:10 · Matthew 25:1–13 · Revelation 21:2 · Ephesians 5:27</p>
+          </div>
+
+          <input data-id="372" type="checkbox" id="acc-m2-hebrew" hidden>
+          <label data-id="373" for="acc-m2-hebrew" class="acc-label">▸ Hebrew Moments</label>
+          <div data-id="374" class="acc-content">
+            <p data-id="375"><strong data-id="376" style="color:#2A7A6F">כַּלָּה</strong> (Kallah) — Bride, Complete</p>
+            <p data-id="377"><strong data-id="378" style="color:#2A7A6F">דּוֹד</strong> (Dod) — Beloved</p>
+            <p data-id="379"><strong data-id="380" style="color:#2A7A6F">עֵת</strong> (Et) — Appointed Season</p>
+            <p data-id="381"><strong data-id="382" style="color:#2A7A6F">אֵרוּסִין</strong> (Erusin) — Betrothal</p>
+            <p data-id="383"><strong data-id="384" style="color:#2A7A6F">גִּלּוּי</strong> (Giluy) — Unveiling, Revealing</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- MODULE 4 -->
+      <div data-id="385" class="module-card">
+        <div data-id="386" class="module-header">
+          <h3 data-id="387">Module 4: Revival Patterns &amp; Signs — תְּחִיָּה</h3>
+          <div data-id="388" class="module-tags">
+            <span data-id="389" class="module-tag">Prophetic</span>
+            <span data-id="390" class="module-tag">60 min</span>
+            <span data-id="391" class="module-tag">Intercessors, Leaders</span>
+          </div>
+        </div>
+        <div data-id="392" class="module-body">
+          <input data-id="393" type="checkbox" id="acc-m3-overview" hidden>
+          <label data-id="394" for="acc-m3-overview" class="acc-label">▸ Overview</label>
+          <div data-id="395" class="acc-content">
+            <p data-id="396">Every true revival carries a fingerprint — a recurring pattern of divine activity recognizable across centuries. We study revival not as history but as blueprint, preparing believers to recognize, welcome, and steward the next great outpouring.</p>
+          </div>
+
+          <input data-id="397" type="checkbox" id="acc-m3-outline" hidden>
+          <label data-id="398" for="acc-m3-outline" class="acc-label">▸ 10-Slide Outline</label>
+          <div data-id="399" class="acc-content">
+            <ol data-id="400" style="padding-left:18px;line-height:1.8">
+              <li data-id="401">Title — "When Heaven Opens"</li>
+              <li data-id="402">The Pattern — Hab. 3:2</li>
+              <li data-id="403">Sign 1: Holy Hunger — Amos 8:11</li>
+              <li data-id="404">Sign 2: Corporate Prayer — Acts 1:14</li>
+              <li data-id="405">Sign 3: Word Awakening — Neh. 8</li>
+              <li data-id="406">Sign 4: Holy Conviction — John 16:8</li>
+              <li data-id="407">Sign 5: Signs &amp; Wonders — Mark 16:20</li>
+              <li data-id="408">Sign 6: Harvest — Acts 2:41</li>
+              <li data-id="409">Sign 7: Community Transformation — Acts 19</li>
+              <li data-id="410">Invitation — "Are you a vessel for the next outpouring?"</li>
+            </ol>
+          </div>
+
+          <input data-id="411" type="checkbox" id="acc-m3-leader" hidden>
+          <label data-id="412" for="acc-m3-leader" class="acc-label">▸ Leader Notes</label>
+          <div data-id="413" class="acc-content">
+            <p data-id="414">Open with Hab. 3:2 read slowly together. Historical examples stir faith, not nostalgia. Use the 7 signs as a community self-assessment. Close with the revival responsive reading as a group liturgy.</p>
+          </div>
+
+          <input data-id="415" type="checkbox" id="acc-m3-reflect" hidden>
+          <label data-id="416" for="acc-m3-reflect" class="acc-label">▸ Reflection Questions</label>
+          <div data-id="417" class="acc-content">
+            <ol data-id="418" style="padding-left:18px;line-height:1.9">
+              <li data-id="419">Which of the 7 revival signs do you see stirring right now?</li>
+              <li data-id="420">What does holy hunger feel like — when did you last experience it?</li>
+              <li data-id="421">Is your community praying corporately?</li>
+              <li data-id="422">Are we preaching for comfort or conviction?</li>
+              <li data-id="423">What must be cleared for revival to flow through you?</li>
+            </ol>
+          </div>
+
+          <input data-id="424" type="checkbox" id="acc-m3-scripture" hidden>
+          <label data-id="425" for="acc-m3-scripture" class="acc-label">▸ Scripture Anchors</label>
+          <div data-id="426" class="acc-content">
+            <p data-id="427" style="color:#2A7A6F;line-height:1.9">Habakkuk 3:2 · Amos 8:11 · Acts 1:14 · Acts 2:41 · Nehemiah 8 · John 16:8 · Mark 16:20 · Acts 19:17–19 · Zechariah 1:3</p>
+          </div>
+
+          <input data-id="428" type="checkbox" id="acc-m3-hebrew" hidden>
+          <label data-id="429" for="acc-m3-hebrew" class="acc-label">▸ Hebrew Moments</label>
+          <div data-id="430" class="acc-content">
+            <p data-id="431"><strong data-id="432" style="color:#2A7A6F">תְּחִיָּה</strong> (Techiyah) — Revival, Resurrection</p>
+            <p data-id="433"><strong data-id="434" style="color:#2A7A6F">שֶׁפַע</strong> (Shefa) — Abundance, Overflow</p>
+            <p data-id="435"><strong data-id="436" style="color:#2A7A6F">גֶּשֶׁם</strong> (Geshem) — Rain</p>
+            <p data-id="437"><strong data-id="438" style="color:#2A7A6F">עָרַב</strong> (Arav) — To hunger, desire deeply</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- MODULE 5 -->
+      <div data-id="439" class="module-card">
+        <div data-id="440" class="module-header">
+          <h3 data-id="441">Module 5: The Covenant Kingdom — מַלְכוּת הַבְּרִית</h3>
+          <div data-id="442" class="module-tags">
+            <span data-id="443" class="module-tag">Theology</span>
+            <span data-id="444" class="module-tag">90 min</span>
+            <span data-id="445" class="module-tag">Mature Believers</span>
+          </div>
+        </div>
+        <div data-id="446" class="module-body">
+          <input data-id="447" type="checkbox" id="acc-m4-overview" hidden>
+          <label data-id="448" for="acc-m4-overview" class="acc-label">▸ Overview</label>
+          <div data-id="449" class="acc-content">
+            <p data-id="450">The Kingdom is not a program — it is a King's domain. The Covenant is not a contract — it is a blood-sealed relationship. This module explores the intersection of covenant theology and Kingdom living, anchored in the Hebrew understanding of Berit.</p>
+          </div>
+
+          <input data-id="451" type="checkbox" id="acc-m4-outline" hidden>
+          <label data-id="452" for="acc-m4-outline" class="acc-label">▸ 10-Slide Outline</label>
+          <div data-id="453" class="acc-content">
+            <ol data-id="454" style="padding-left:18px;line-height:1.8">
+              <li data-id="455">Title — "The Covenant Kingdom"</li>
+              <li data-id="456">Covenant Defined — Deut. 29:12–13</li>
+              <li data-id="457">Blood Covenant — Gen. 15</li>
+              <li data-id="458">Kingdom Defined — Matt. 6:33</li>
+              <li data-id="459">The King's Domain — Ps. 103:19</li>
+              <li data-id="460">Covenant Responsibilities — Ex. 19:5–6</li>
+              <li data-id="461">Kingdom Citizens — Phil. 3:20</li>
+              <li data-id="462">Covenant Signs — Rainbow, Sabbath, Passover, Communion</li>
+              <li data-id="463">Kingdom Keys — Matt. 16:19</li>
+              <li data-id="464">Response — "How does covenant change everything?"</li>
+            </ol>
+          </div>
+
+          <input data-id="465" type="checkbox" id="acc-m4-leader" hidden>
+          <label data-id="466" for="acc-m4-leader" class="acc-label">▸ Leader Notes</label>
+          <div data-id="467" class="acc-content">
+            <p data-id="468">Spend significant time on Genesis 15 — the walk-through-the-pieces passage is foundational. God walking alone through the covenant is life-changing for many. Connect the covenant signs to lived daily experience.</p>
+          </div>
+
+          <input data-id="469" type="checkbox" id="acc-m4-reflect" hidden>
+          <label data-id="470" for="acc-m4-reflect" class="acc-label">▸ Reflection Questions</label>
+          <div data-id="471" class="acc-content">
+            <ol data-id="472" style="padding-left:18px;line-height:1.9">
+              <li data-id="473">How does understanding Berit change the way you approach God?</li>
+              <li data-id="474">God walked through the pieces alone — what does this mean for your security in Him?</li>
+              <li data-id="475">Which covenant sign is most meaningful to you?</li>
+              <li data-id="476">What does it mean to live as a Kingdom citizen in your neighborhood this week?</li>
+              <li data-id="477">Where are you being invited to use the keys of the Kingdom?</li>
+            </ol>
+          </div>
+
+          <input data-id="478" type="checkbox" id="acc-m4-scripture" hidden>
+          <label data-id="479" for="acc-m4-scripture" class="acc-label">▸ Scripture Anchors</label>
+          <div data-id="480" class="acc-content">
+            <p data-id="481" style="color:#2A7A6F;line-height:1.9">Deuteronomy 29:12–13 · Genesis 15:17 · Matthew 6:33 · Psalm 103:19 · Exodus 19:5–6 · Philippians 3:20 · Matthew 16:19 · Lamentations 3:22–23</p>
+          </div>
+
+          <input data-id="482" type="checkbox" id="acc-m4-hebrew" hidden>
+          <label data-id="483" for="acc-m4-hebrew" class="acc-label">▸ Hebrew Moments</label>
+          <div data-id="484" class="acc-content">
+            <p data-id="485"><strong data-id="486" style="color:#2A7A6F">בְּרִית</strong> (Berit) — Covenant, To Cut</p>
+            <p data-id="487"><strong data-id="488" style="color:#2A7A6F">מַלְכוּת</strong> (Malkhut) — Kingdom, Reign</p>
+            <p data-id="489"><strong data-id="490" style="color:#2A7A6F">חֶסֶד</strong> (Hesed) — Covenant Love</p>
+            <p data-id="491"><strong data-id="492" style="color:#2A7A6F">סְגֻלָּה</strong> (Segulah) — Treasured Possession</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- MODULE 6 -->
+      <div data-id="493" class="module-card">
+        <div data-id="494" class="module-header">
+          <h3 data-id="495">Module 6: The Talmidim Pathway — נְתִיב הַתַּלְמִיד</h3>
+          <div data-id="496" class="module-tags">
+            <span data-id="497" class="module-tag">Discipleship</span>
+            <span data-id="498" class="module-tag">6-Session Series</span>
+            <span data-id="499" class="module-tag">All</span>
+          </div>
+        </div>
+        <div data-id="500" class="module-body">
+          <input data-id="501" type="checkbox" id="acc-m5-overview" hidden>
+          <label data-id="502" for="acc-m5-overview" class="acc-label">▸ Overview</label>
+          <div data-id="503" class="acc-content">
+            <p data-id="504">Talmidim in the ancient Hebraic model were not students of a subject — they were followers of a person. This module builds a six-stage discipleship pathway modeled after Yeshua's relationship with His twelve.</p>
+          </div>
+
+          <input data-id="505" type="checkbox" id="acc-m5-pathway" hidden>
+          <label data-id="506" for="acc-m5-pathway" class="acc-label">▸ 6-Stage Pathway</label>
+          <div data-id="507" class="acc-content">
+            <p data-id="508" style="margin-bottom:8px"><strong data-id="509">Stage 1: Come &amp; See</strong> (John 1:39) — Encounter, wonder, first curiosity</p>
+            <p data-id="510" style="margin-bottom:8px"><strong data-id="511">Stage 2: Come &amp; Follow</strong> (Matt. 4:19) — Leaving old life, repentance</p>
+            <p data-id="512" style="margin-bottom:8px"><strong data-id="513">Stage 3: Come &amp; Be With Me</strong> (Mark 3:14) — Intimate formation, learning the Rabbi's ways</p>
+            <p data-id="514" style="margin-bottom:8px"><strong data-id="515">Stage 4: I Will Make You</strong> (Matt. 4:19) — Transformation, the Rabbi shapes the Talmid</p>
+            <p data-id="516" style="margin-bottom:8px"><strong data-id="517">Stage 5: Go &amp; Do</strong> (Luke 10:3) — Commissioning, sent with authority</p>
+            <p data-id="518"><strong data-id="519">Stage 6: Go &amp; Make</strong> (Matt. 28:19) — Multiplication, Talmidim who make Talmidim</p>
+          </div>
+
+          <input data-id="520" type="checkbox" id="acc-m5-leader" hidden>
+          <label data-id="521" for="acc-m5-leader" class="acc-label">▸ Leader Notes</label>
+          <div data-id="522" class="acc-content">
+            <p data-id="523">Best taught as a 6-session series, one stage per week. Invite participants to identify which stage they are currently in. The Talmid Covenant at Stage 6 should be read aloud as a group declaration.</p>
+          </div>
+
+          <input data-id="524" type="checkbox" id="acc-m5-reflect" hidden>
+          <label data-id="525" for="acc-m5-reflect" class="acc-label">▸ Reflection Questions</label>
+          <div data-id="526" class="acc-content">
+            <ol data-id="527" style="padding-left:18px;line-height:1.9">
+              <li data-id="528">Which of the 6 stages best describes where you are right now?</li>
+              <li data-id="529">What did you leave behind to follow the Rabbi?</li>
+              <li data-id="530">What does "being with Him" look like in your daily rhythm?</li>
+              <li data-id="531">What is the Rabbi making you into that you could not make yourself?</li>
+              <li data-id="532">Who are you discipling — or who is discipling you?</li>
+            </ol>
+          </div>
+
+          <input data-id="533" type="checkbox" id="acc-m5-scripture" hidden>
+          <label data-id="534" for="acc-m5-scripture" class="acc-label">▸ Scripture Anchors</label>
+          <div data-id="535" class="acc-content">
+            <p data-id="536" style="color:#2A7A6F;line-height:1.9">John 1:39 · Matthew 4:19 · Mark 3:14 · Luke 10:3 · Matthew 28:19 · 2 Timothy 2:2 · John 20:21</p>
+          </div>
+
+          <input data-id="537" type="checkbox" id="acc-m5-hebrew" hidden>
+          <label data-id="538" for="acc-m5-hebrew" class="acc-label">▸ Hebrew Moments</label>
+          <div data-id="539" class="acc-content">
+            <p data-id="540"><strong data-id="541" style="color:#2A7A6F">תַּלְמִיד</strong> (Talmid) — Disciple, Imitator</p>
+            <p data-id="542"><strong data-id="543" style="color:#2A7A6F">הָלַךְ</strong> (Halakh) — To walk</p>
+            <p data-id="544"><strong data-id="545" style="color:#2A7A6F">שׁוּב</strong> (Shuv) — Repent, Return</p>
+            <p data-id="546"><strong data-id="547" style="color:#2A7A6F">מַשָּׂא</strong> (Massa) — Yoke</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ HEBREW WORD STUDIES ============ -->
+    <div data-id="548" class="section" id="sec-hebrew">
+      <h1 data-id="549" class="page-heading">🌿 Hebrew Word Studies</h1>
+      <p data-id="550" class="section-subtitle">Sit with each word. Let it reshape how you read, pray, and live.</p>
+
+      <div data-id="551" class="grid-2">
+        <!-- Word 1 -->
+        <div data-id="552" class="hebrew-card">
+          <div data-id="553" class="hebrew-word">שָׁלוֹם</div>
+          <div data-id="554" class="hebrew-translit">Shalom</div>
+          <div data-id="555" class="hebrew-root">Root: wholeness, completeness, nothing missing</div>
+          <p data-id="556" style="font-size:0.9rem;line-height:1.6;color:#333;margin-top:8px">Not merely peace but wholeness. Nothing missing, nothing broken. Shalom is not the absence of conflict — it is the presence of the King.</p>
+          <p data-id="557" style="font-size:0.85rem;color:#2A7A6F;font-style:italic;margin-top:6px">Isaiah 9:6</p>
+          <div data-id="558" class="sit-box">Sit with this: "Where is the King's Shalom still being established in your life?"</div>
+        </div>
+
+        <!-- Word 2 -->
+        <div data-id="559" class="hebrew-card">
+          <div data-id="560" class="hebrew-word">קֹדֶשׁ</div>
+          <div data-id="561" class="hebrew-translit">Kodesh</div>
+          <div data-id="562" class="hebrew-root">Root: holy, set apart, consecrated</div>
+          <p data-id="563" style="font-size:0.9rem;line-height:1.6;color:#333;margin-top:8px">Shares root with marriage (Kiddushin). Holiness is devotion to God, not distance from the world.</p>
+          <p data-id="564" style="font-size:0.85rem;color:#2A7A6F;font-style:italic;margin-top:6px">Leviticus 20:26</p>
+          <div data-id="565" class="sit-box">Sit with this: "What would it mean to consecrate one more area of your daily life?"</div>
+        </div>
+
+        <!-- Word 3 -->
+        <div data-id="566" class="hebrew-card">
+          <div data-id="567" class="hebrew-word">אָהַב</div>
+          <div data-id="568" class="hebrew-translit">Ahav</div>
+          <div data-id="569" class="hebrew-root">Root: to love, give, pour out</div>
+          <p data-id="570" style="font-size:0.9rem;line-height:1.6;color:#333;margin-top:8px">Love in Hebrew implies action and sacrifice. God's love is not a feeling — it is a decision to give.</p>
+          <p data-id="571" style="font-size:0.85rem;color:#2A7A6F;font-style:italic;margin-top:6px">John 3:16</p>
+          <div data-id="572" class="sit-box">Sit with this: "How is God's Ahav shaping the way you love others?"</div>
+        </div>
+
+        <!-- Word 4 -->
+        <div data-id="573" class="hebrew-card">
+          <div data-id="574" class="hebrew-word">דָּבַר</div>
+          <div data-id="575" class="hebrew-translit">Davar</div>
+          <div data-id="576" class="hebrew-root">Root: word, thing, event</div>
+          <p data-id="577" style="font-size:0.9rem;line-height:1.6;color:#333;margin-top:8px">The Word is not just spoken — it is a creative event. The Davar does what it says.</p>
+          <p data-id="578" style="font-size:0.85rem;color:#2A7A6F;font-style:italic;margin-top:6px">Isaiah 55:11</p>
+          <div data-id="579" class="sit-box">Sit with this: "Which Davar is currently doing something in your life?"</div>
+        </div>
+
+        <!-- Word 5 -->
+        <div data-id="580" class="hebrew-card">
+          <div data-id="581" class="hebrew-word">תְּשׁוּבָה</div>
+          <div data-id="582" class="hebrew-translit">Teshuvah</div>
+          <div data-id="583" class="hebrew-root">Root: repentance, returning, turning back</div>
+          <p data-id="584" style="font-size:0.9rem;line-height:1.6;color:#333;margin-top:8px">Teshuvah is not shame — it is a homecoming. The Father runs to meet the one who turns.</p>
+          <p data-id="585" style="font-size:0.85rem;color:#2A7A6F;font-style:italic;margin-top:6px">Luke 15:20</p>
+          <div data-id="586" class="sit-box">Sit with this: "Is there a Teshuvah moment waiting for you?"</div>
+        </div>
+
+        <!-- Word 6 -->
+        <div data-id="587" class="hebrew-card">
+          <div data-id="588" class="hebrew-word">בָּטַח</div>
+          <div data-id="589" class="hebrew-translit">Batach</div>
+          <div data-id="590" class="hebrew-root">Root: to trust, lean on, be confident in</div>
+          <p data-id="591" style="font-size:0.9rem;line-height:1.6;color:#333;margin-top:8px">Batach is not intellectual belief — it is leaning your full weight on God.</p>
+          <p data-id="592" style="font-size:0.85rem;color:#2A7A6F;font-style:italic;margin-top:6px">Proverbs 3:5</p>
+          <div data-id="593" class="sit-box">Sit with this: "Where are you leaning on your own understanding instead of Batach-ing?"</div>
+        </div>
+
+        <!-- Word 7 -->
+        <div data-id="594" class="hebrew-card">
+          <div data-id="595" class="hebrew-word">כָּבוֹד</div>
+          <div data-id="596" class="hebrew-translit">Kavod</div>
+          <div data-id="597" class="hebrew-root">Root: glory, weight, heaviness, honor</div>
+          <p data-id="598" style="font-size:0.9rem;line-height:1.6;color:#333;margin-top:8px">When God's Kavod fills the Temple, no one can stand. Glory is weight, not just light.</p>
+          <p data-id="599" style="font-size:0.85rem;color:#2A7A6F;font-style:italic;margin-top:6px">Exodus 40:34</p>
+          <div data-id="600" class="sit-box">Sit with this: "What would it look like for God's Kavod to fill your home?"</div>
+        </div>
+
+        <!-- Word 8 -->
+        <div data-id="601" class="hebrew-card">
+          <div data-id="602" class="hebrew-word">אֱמוּנָה</div>
+          <div data-id="603" class="hebrew-translit">Emunah</div>
+          <div data-id="604" class="hebrew-root">Root: faith, faithfulness, steadiness</div>
+          <p data-id="605" style="font-size:0.9rem;line-height:1.6;color:#333;margin-top:8px">Emunah is not a leap — it is a steady standing. The righteous one lives by Emunah.</p>
+          <p data-id="606" style="font-size:0.85rem;color:#2A7A6F;font-style:italic;margin-top:6px">Habakkuk 2:4</p>
+          <div data-id="607" class="sit-box">Sit with this: "Where is your Emunah being tested right now?"</div>
+        </div>
+
+        <!-- Word 9 -->
+        <div data-id="608" class="hebrew-card">
+          <div data-id="609" class="hebrew-word">חֶסֶד</div>
+          <div data-id="610" class="hebrew-translit">Hesed</div>
+          <div data-id="611" class="hebrew-root">Root: covenant love, loyal love, lovingkindness</div>
+          <p data-id="612" style="font-size:0.9rem;line-height:1.6;color:#333;margin-top:8px">Hesed is what holds the covenant together when we fail. His mercies are new every morning.</p>
+          <p data-id="613" style="font-size:0.85rem;color:#2A7A6F;font-style:italic;margin-top:6px">Lamentations 3:22–23</p>
+          <div data-id="614" class="sit-box">Sit with this: "Where do you need to receive Hesed — and extend it?"</div>
+        </div>
+
+        <!-- Word 10 -->
+        <div data-id="615" class="hebrew-card">
+          <div data-id="616" class="hebrew-word">נָבִיא</div>
+          <div data-id="617" class="hebrew-translit">Navi</div>
+          <div data-id="618" class="hebrew-root">Root: prophet, one who pours out, mouthpiece</div>
+          <p data-id="619" style="font-size:0.9rem;line-height:1.6;color:#333;margin-top:8px">A prophet is not a fortune-teller — he speaks the King's heart. The Lord does nothing without revealing His plan to His servants the prophets.</p>
+          <p data-id="620" style="font-size:0.85rem;color:#2A7A6F;font-style:italic;margin-top:6px">Amos 3:7</p>
+          <div data-id="621" class="sit-box">Sit with this: "Are you listening for the Navi voice of the Spirit?"</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ BRIDE'S JOURNEY ============ -->
+    <div data-id="622" class="section" id="sec-bride">
+      <h1 data-id="623" class="page-heading">💍 The Bride's Journey — <span data-id="624" style="direction:rtl;display:inline">מסע הכלה</span></h1>
+      <p data-id="625" style="font-family:'Crimson Pro',Georgia,serif;font-size:1.05rem;color:#C9A227;font-style:italic;margin-bottom:28px;line-height:1.6">"You are not behind. You are not forgotten. You are in your Et — your appointed season."</p>
+
+      <div data-id="626" class="bride-timeline">
+        <!-- Scene 1 -->
+        <div data-id="627" class="bride-scene">
+          <div data-id="628" class="bride-scene-num">1</div>
+          <div data-id="629" class="card" style="margin-left:4px">
+            <div data-id="630" style="font-size:1.2rem;margin-bottom:4px">🕯️</div>
+            <div data-id="631" class="bride-scene-title">The Awakening — הַתְּעוֹרְרוּת</div>
+            <div data-id="632" class="bride-scripture">Song of Solomon 2:10</div>
+            <p data-id="633" class="bride-narrative">The Bride has been sleeping — not in sin, but in unawareness. The voice of the Beloved breaks through the ordinary and calls her by name. Awakening is not an achievement — it is a gift.</p>
+            <p data-id="634" class="bride-hebrew">עוּר (Ur) — To awaken</p>
+            <div data-id="635" class="bride-reflect">"When did you first hear His voice calling you away from the ordinary?"</div>
+          </div>
+        </div>
+
+        <!-- Scene 2 -->
+        <div data-id="636" class="bride-scene">
+          <div data-id="637" class="bride-scene-num">2</div>
+          <div data-id="638" class="card" style="margin-left:4px">
+            <div data-id="639" style="font-size:1.2rem;margin-bottom:4px">🌊</div>
+            <div data-id="640" class="bride-scene-title">The Wilderness — הַמִּדְבָּר</div>
+            <div data-id="641" class="bride-scripture">Hosea 2:14</div>
+            <p data-id="642" class="bride-narrative">The wilderness is not punishment — it is intimacy. Here all distractions are stripped away. The Bride learns the voice of the Beloved without the noise of the crowd.</p>
+            <p data-id="643" class="bride-hebrew">מִדְבָּר (Midbar) — Wilderness, Place of Speaking</p>
+            <p data-id="644" style="font-size:0.85rem;color:#555;font-style:italic;margin-top:4px">Midbar contains Davar — the wilderness is where God speaks.</p>
+            <div data-id="645" class="bride-reflect">"If you are in the wilderness, what do you sense God saying?"</div>
+          </div>
+        </div>
+
+        <!-- Scene 3 -->
+        <div data-id="646" class="bride-scene">
+          <div data-id="647" class="bride-scene-num">3</div>
+          <div data-id="648" class="card" style="margin-left:4px">
+            <div data-id="649" style="font-size:1.2rem;margin-bottom:4px">💍</div>
+            <div data-id="650" class="bride-scene-title">The Betrothal — הָאֵרוּסִין</div>
+            <div data-id="651" class="bride-scripture">Ruth 3:9</div>
+            <p data-id="652" class="bride-narrative">The Bride is claimed. A covenant is made. She is no longer searching — she is seen, known, and chosen.</p>
+            <p data-id="653" class="bride-hebrew">אֵרוּסִין (Erusin) — Betrothal</p>
+            <div data-id="654" class="bride-reflect">"How does knowing you are already chosen change how you live today?"</div>
+          </div>
+        </div>
+
+        <!-- Scene 4 -->
+        <div data-id="655" class="bride-scene">
+          <div data-id="656" class="bride-scene-num">4</div>
+          <div data-id="657" class="card" style="margin-left:4px">
+            <div data-id="658" style="font-size:1.2rem;margin-bottom:4px">🌹</div>
+            <div data-id="659" class="bride-scene-title">The Preparation — הַהֲכָנָה</div>
+            <div data-id="660" class="bride-scripture">Esther 2:12</div>
+            <p data-id="661" class="bride-narrative">The Bride does not rush to the Bridegroom unprepared. She surrenders to the season of preparation — fragrant oil, sacred disciplines, holy formation.</p>
+            <p data-id="662" class="bride-hebrew">הֲכָנָה (Hakhana) — Preparation</p>
+            <div data-id="663" class="bride-reflect">"What area of spiritual preparation is the Spirit calling you into?"</div>
+          </div>
+        </div>
+
+        <!-- Scene 5 -->
+        <div data-id="664" class="bride-scene">
+          <div data-id="665" class="bride-scene-num">5</div>
+          <div data-id="666" class="card" style="margin-left:4px">
+            <div data-id="667" style="font-size:1.2rem;margin-bottom:4px">🕊️</div>
+            <div data-id="668" class="bride-scene-title">The Garments — הַבְּגָדִים</div>
+            <div data-id="669" class="bride-scripture">Isaiah 61:10</div>
+            <p data-id="670" class="bride-narrative">The Bride does not dress herself. The Bridegroom provides the garments — righteousness, holiness, and glory. Her beauty is gift, not achievement.</p>
+            <p data-id="671" class="bride-hebrew">בְּגָדִים (Begadim) — Garments</p>
+            <div data-id="672" class="bride-reflect">"Where are you still trying to dress yourself instead of receiving what He gives?"</div>
+          </div>
+        </div>
+
+        <!-- Scene 6 -->
+        <div data-id="673" class="bride-scene">
+          <div data-id="674" class="bride-scene-num">6</div>
+          <div data-id="675" class="card" style="margin-left:4px">
+            <div data-id="676" style="font-size:1.2rem;margin-bottom:4px">🪔</div>
+            <div data-id="677" class="bride-scene-title">The Waiting — הַהַמְתָּנָה</div>
+            <div data-id="678" class="bride-scripture">Matthew 25:1–13</div>
+            <p data-id="679" class="bride-narrative">The Bride waits — but not passively. She tends her lamp. She cultivates the oil of intimacy so that when the cry goes out, her lamp is burning.</p>
+            <p data-id="680" class="bride-hebrew">חָכָה (Khaka) — To wait eagerly</p>
+            <div data-id="681" class="bride-reflect">"Is your lamp trimmed? What disciplines keep your oil full?"</div>
+          </div>
+        </div>
+
+        <!-- Scene 7 -->
+        <div data-id="682" class="bride-scene">
+          <div data-id="683" class="bride-scene-num">7</div>
+          <div data-id="684" class="card" style="margin-left:4px">
+            <div data-id="685" style="font-size:1.2rem;margin-bottom:4px">👑</div>
+            <div data-id="686" class="bride-scene-title">The Revealing — הַגִּלּוּי</div>
+            <div data-id="687" class="bride-scripture">Revelation 21:2</div>
+            <p data-id="688" class="bride-narrative">The Bride is revealed. The long journey leads to this: she emerges radiant, without spot or wrinkle, clothed in glory. The Bridegroom sees her and is overcome with joy.</p>
+            <p data-id="689" class="bride-hebrew">גִּלּוּי (Giluy) — Revealing, Unveiling</p>
+            <div data-id="690" class="bride-reflect">"What will it mean on that day to be seen in your fullness?"</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Commissioning Blessing -->
+      <div data-id="691" style="background:#1A2E6E;color:#fff;border-radius:12px;padding:28px 32px;margin-top:32px;border:2px solid #C9A227">
+        <p data-id="692" style="font-family:'Crimson Pro',Georgia,serif;font-size:1.1rem;line-height:1.8;text-align:center">
+          "You are seen. You are chosen. You are radiant in His eyes — even now, while you are still becoming.<br data-id="693">Come, Lord Yeshua. We are ready."
+        </p>
+      </div>
+    </div>
+
+    <!-- ============ REVIVAL PATTERNS ============ -->
+    <div data-id="694" class="section" id="sec-revival">
+      <h1 data-id="695" class="page-heading">🔥 Revival Patterns &amp; Signs — <span data-id="696" style="direction:rtl;display:inline">תְּחִיָּה</span></h1>
+
+      <div data-id="697" class="card-gold-border" style="margin-bottom:28px;text-align:center">
+        <p data-id="698" style="font-family:'Crimson Pro',Georgia,serif;font-size:1.05rem;color:#333;font-style:italic">"LORD, revive Your work in the midst of the years." — Habakkuk 3:2</p>
+      </div>
+
+      <div data-id="699" class="grid-2" style="margin-bottom:32px">
+        <!-- Sign 1 -->
+        <div data-id="700" class="sign-card">
+          <span data-id="701" class="sign-badge">Sign 1</span> <span data-id="702">🔥</span>
+          <div data-id="703" class="sign-name">Holy Hunger</div>
+          <div data-id="704" class="sign-history">Azusa Street 1906: William Seymour prayed 5 hours daily before the fire fell.</div>
+          <p data-id="705" class="sign-apply">"Begin cultivating holy hunger now. God stirs it before fire falls."</p>
+        </div>
+
+        <!-- Sign 2 -->
+        <div data-id="706" class="sign-card">
+          <span data-id="707" class="sign-badge">Sign 2</span> <span data-id="708">🔥🔥</span>
+          <div data-id="709" class="sign-name">Corporate Prayer</div>
+          <div data-id="710" class="sign-history">Moravian Watch 1727: 100-year 24/7 prayer watch. 300+ missionaries sent.</div>
+          <p data-id="711" class="sign-apply">"What would sustained corporate prayer look like in your community?"</p>
+        </div>
+
+        <!-- Sign 3 -->
+        <div data-id="712" class="sign-card">
+          <span data-id="713" class="sign-badge">Sign 3</span> <span data-id="714">🔥</span>
+          <div data-id="715" class="sign-name">Word Awakening</div>
+          <div data-id="716" class="sign-history">Josiah's Reformation 621 BC: The lost Torah was read publicly and the nation wept (2 Kings 22).</div>
+          <p data-id="717" class="sign-apply">"Are you stewarding the Word with weight in your generation?"</p>
+        </div>
+
+        <!-- Sign 4 -->
+        <div data-id="718" class="sign-card">
+          <span data-id="719" class="sign-badge">Sign 4</span> <span data-id="720">🔥🔥</span>
+          <div data-id="721" class="sign-name">Holy Conviction</div>
+          <div data-id="722" class="sign-history">George Whitefield 1730s: Listeners fell under conviction in open fields before he finished preaching.</div>
+          <p data-id="723" class="sign-apply">"Are we preaching for comfort or for conviction?"</p>
+        </div>
+
+        <!-- Sign 5 -->
+        <div data-id="724" class="sign-card">
+          <span data-id="725" class="sign-badge">Sign 5</span> <span data-id="726">🔥🔥🔥</span>
+          <div data-id="727" class="sign-name">Signs &amp; Wonders</div>
+          <div data-id="728" class="sign-history">Welsh Revival 1904: Evan Roberts prayed "Bend me, O Lord." 100,000 souls saved in 5 months.</div>
+          <p data-id="729" class="sign-apply">"Desperation is the door to the miraculous."</p>
+        </div>
+
+        <!-- Sign 6 -->
+        <div data-id="730" class="sign-card">
+          <span data-id="731" class="sign-badge">Sign 6</span> <span data-id="732">🔥🔥</span>
+          <div data-id="733" class="sign-name">Harvest</div>
+          <div data-id="734" class="sign-history">Pentecost, Acts 2:41: 3,000 added in a single day.</div>
+          <p data-id="735" class="sign-apply">"Revival that doesn't produce harvest is incomplete."</p>
+        </div>
+
+        <!-- Sign 7 -->
+        <div data-id="736" class="sign-card" style="grid-column:1/-1">
+          <span data-id="737" class="sign-badge">Sign 7</span> <span data-id="738">🔥🔥🔥</span>
+          <div data-id="739" class="sign-name">Community Transformation</div>
+          <div data-id="740" class="sign-history">Hebrides Revival 1949: The Spirit fell in fields and crossroads — not just churches. Communities transformed overnight.</div>
+          <p data-id="741" class="sign-apply">"Revival that stays inside church walls has not fully arrived."</p>
+        </div>
+      </div>
+
+      <!-- Responsive Reading -->
+      <div data-id="742" class="card-gold-border">
+        <h3 data-id="743" style="font-family:'Crimson Pro',Georgia,serif;font-size:1.2rem;color:#1A2E6E;margin-bottom:16px;text-align:center">When Heaven Opens — Responsive Reading</h3>
+        <div data-id="744" class="responsive-line"><span data-id="745" class="leader-voice">Leader:</span> "Lord, we have heard the report of Your works."</div>
+        <div data-id="746" class="responsive-line"><span data-id="747" class="group-voice">GROUP:</span> "Revive Your work, O Lord."</div>
+        <div data-id="748" class="responsive-line"><span data-id="749" class="leader-voice">Leader:</span> "In the middle of our dry season —"</div>
+        <div data-id="750" class="responsive-line"><span data-id="751" class="group-voice">GROUP:</span> "Send the rain."</div>
+        <div data-id="752" class="responsive-line"><span data-id="753" class="leader-voice">Leader:</span> "In the middle of our silence —"</div>
+        <div data-id="754" class="responsive-line"><span data-id="755" class="group-voice">GROUP:</span> "Let Your voice thunder."</div>
+        <div data-id="756" class="responsive-line"><span data-id="757" class="leader-voice">Leader:</span> "We are not satisfied with church as usual."</div>
+        <div data-id="758" class="responsive-line"><span data-id="759" class="group-voice">GROUP:</span> "We are hungry for You."</div>
+        <div data-id="760" class="responsive-line"><span data-id="761" class="leader-voice">Leader:</span> "We will not settle for form without fire."</div>
+        <div data-id="762" class="responsive-line"><span data-id="763" class="group-voice">GROUP:</span> "Give us fire, O God."</div>
+        <div data-id="764" class="responsive-line"><span data-id="765" class="leader-voice">Leader:</span> "Let revival begin —"</div>
+        <div data-id="766" class="responsive-line"><span data-id="767" class="group-voice">GROUP:</span> "In us. In this place. In this generation. Amen."</div>
+      </div>
+    </div>
+
+    <!-- ============ DISCIPLESHIP PATHWAY ============ -->
+    <div data-id="768" class="section" id="sec-discipleship">
+      <h1 data-id="769" class="page-heading">🌱 Discipleship Pathway — <span data-id="770" style="direction:rtl;display:inline">נְתִיב הַתַּלְמִיד</span></h1>
+      <p data-id="771" style="font-family:'Crimson Pro',Georgia,serif;font-size:1rem;color:#555;font-style:italic;margin-bottom:28px;line-height:1.6">"A Talmid's greatest goal is to be so close to his Rabbi that he is covered in the dust of his Rabbi's feet."</p>
+
+      <div data-id="772" class="pathway-timeline">
+        <!-- Stage 1 -->
+        <div data-id="773" style="position:relative;margin-bottom:30px">
+          <div data-id="774" class="stage-num">1</div>
+          <div data-id="775" class="stage-card">
+            <div data-id="776" style="font-size:1.1rem;margin-bottom:4px">👁️</div>
+            <div data-id="777" class="stage-title">Come &amp; See</div>
+            <div data-id="778" class="stage-scripture">John 1:39</div>
+            <p data-id="779" class="stage-text">The first stage is encounter — the Rabbi invites curiosity. The Talmid does not yet know what following will cost; he only knows he wants to see more.</p>
+            <p data-id="780" class="stage-learns"><strong data-id="781">Learns:</strong> Wonder, holy curiosity, first awakening</p>
+            <div data-id="782" class="stage-reflect">"When did you first sense Yeshua calling you to look more closely?"</div>
+          </div>
+        </div>
+
+        <!-- Stage 2 -->
+        <div data-id="783" style="position:relative;margin-bottom:30px">
+          <div data-id="784" class="stage-num">2</div>
+          <div data-id="785" class="stage-card">
+            <div data-id="786" style="font-size:1.1rem;margin-bottom:4px">🚶</div>
+            <div data-id="787" class="stage-title">Come &amp; Follow</div>
+            <div data-id="788" class="stage-scripture">Matthew 4:19</div>
+            <p data-id="789" class="stage-text">Leaving the nets. Leaving the old life. Repentance and surrender — turning your back on what you were and facing the Rabbi.</p>
+            <p data-id="790" class="stage-learns"><strong data-id="791">Learns:</strong> The cost of the call and the freedom in obedience</p>
+            <div data-id="792" class="stage-reflect">"What did you leave behind — or still need to leave?"</div>
+          </div>
+        </div>
+
+        <!-- Stage 3 -->
+        <div data-id="793" style="position:relative;margin-bottom:30px">
+          <div data-id="794" class="stage-num">3</div>
+          <div data-id="795" class="stage-card">
+            <div data-id="796" style="font-size:1.1rem;margin-bottom:4px">🏠</div>
+            <div data-id="797" class="stage-title">Come &amp; Be With Me</div>
+            <div data-id="798" class="stage-scripture">Mark 3:14</div>
+            <p data-id="799" class="stage-text">The Rabbi chose them to be WITH him. Proximity is the curriculum. The Talmid absorbs the Rabbi's prayers, silences, and loves.</p>
+            <p data-id="800" class="stage-learns"><strong data-id="801">Learns:</strong> The Rabbi's way of being — His rhythms, reflexes, and heart</p>
+            <div data-id="802" class="stage-reflect">"What does 'being with Him' look like in your daily schedule?"</div>
+          </div>
+        </div>
+
+        <!-- Stage 4 -->
+        <div data-id="803" style="position:relative;margin-bottom:30px">
+          <div data-id="804" class="stage-num">4</div>
+          <div data-id="805" class="stage-card">
+            <div data-id="806" style="font-size:1.1rem;margin-bottom:4px">🔨</div>
+            <div data-id="807" class="stage-title">I Will Make You</div>
+            <div data-id="808" class="stage-scripture">Matthew 4:19</div>
+            <p data-id="809" class="stage-text">The Rabbi does not wait for the Talmid to improve himself. He says: I will make you. The transformation is the Rabbi's work, not the Talmid's performance.</p>
+            <p data-id="810" class="stage-learns"><strong data-id="811">Learns:</strong> Surrender to the shaping process</p>
+            <div data-id="812" class="stage-reflect">"What is the Rabbi making you into that you could not make yourself?"</div>
+          </div>
+        </div>
+
+        <!-- Stage 5 -->
+        <div data-id="813" style="position:relative;margin-bottom:30px">
+          <div data-id="814" class="stage-num">5</div>
+          <div data-id="815" class="stage-card">
+            <div data-id="816" style="font-size:1.1rem;margin-bottom:4px">🕊️</div>
+            <div data-id="817" class="stage-title">Go &amp; Do</div>
+            <div data-id="818" class="stage-scripture">Luke 10:3</div>
+            <p data-id="819" class="stage-text">The Rabbi commissions — with authority and instruction — and sends. The Talmid goes before he feels fully ready. That is by design.</p>
+            <p data-id="820" class="stage-learns"><strong data-id="821">Learns:</strong> Dependence on the Spirit, not on preparation alone</p>
+            <div data-id="822" class="stage-reflect">"Where is the Rabbi sending you right now?"</div>
+          </div>
+        </div>
+
+        <!-- Stage 6 -->
+        <div data-id="823" style="position:relative;margin-bottom:30px">
+          <div data-id="824" class="stage-num">6</div>
+          <div data-id="825" class="stage-card">
+            <div data-id="826" style="font-size:1.1rem;margin-bottom:4px">🌍</div>
+            <div data-id="827" class="stage-title">Go &amp; Make</div>
+            <div data-id="828" class="stage-scripture">Matthew 28:19</div>
+            <p data-id="829" class="stage-text">The final stage is multiplication — Talmidim who make Talmidim. Every Talmid carries the DNA of the Rabbi and the call to reproduce.</p>
+            <p data-id="830" class="stage-learns"><strong data-id="831">Learns:</strong> The journey begins again with a new Talmid</p>
+            <div data-id="832" class="stage-reflect">"Who are you walking alongside as their discipler?"</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Talmid Covenant -->
+      <div data-id="833" class="card-parchment" style="margin-top:12px;text-align:center">
+        <h3 data-id="834" style="font-family:'Crimson Pro',Georgia,serif;font-size:1.15rem;color:#1A2E6E;margin-bottom:14px">The Talmid Covenant</h3>
+        <p data-id="835" style="font-size:1rem;line-height:1.8;color:#333">
+          I do not merely seek knowledge about Yeshua — I seek to be formed into His image.<br data-id="836">
+          I will follow closely. I will learn His ways.<br data-id="837">
+          I will carry His yoke. I will make disciples who make disciples.<br data-id="838">
+          <strong data-id="839" style="color:#C9A227">I am a Talmid.</strong>
+        </p>
+      </div>
+    </div>
+
+    <!-- ============ VISUAL DIAGRAMS ============ -->
+    <div data-id="840" class="section" id="sec-diagrams">
+      <h1 data-id="841" class="page-heading">🌸 Visual Diagrams &amp; Symbols</h1>
+      <p data-id="842" class="section-subtitle">Sacred imagery and symbolic designs for teaching, Canva, and print.</p>
+
+      <!-- THE BRIDGE CALLING — Featured Diagram -->
+      <div data-id="843" style="margin-bottom:36px">
+        <div data-id="844" style="font-size:0.8rem;font-weight:700;color:#2A7A6F;font-family:Georgia,serif;margin-bottom:6px;letter-spacing:1px;text-transform:uppercase">✨ Featured Diagram</div>
+        <h2 data-id="845" style="font-size:1.6rem;font-weight:700;color:#1A2E6E;font-family:Georgia,serif;margin-bottom:4px">🌉 The Bridge Calling</h2>
+        <p data-id="846" style="color:#555;font-size:0.95rem;margin-bottom:20px">Israel · Messiah · The Nations — Heaven to Earth</p>
+
+        <!-- Bridge SVG Diagram -->
+        <div data-id="847" style="background:#0f1535;border-radius:12px;padding:20px;margin-bottom:20px;overflow:hidden">
+          <svg data-id="848" viewBox="0 0 1000 520" width="100%" preserveAspectRatio="xMidYMid meet" style="display:block;max-height:480px" xmlns="http://www.w3.org/2000/svg">
+            <defs data-id="849">
+              <linearGradient data-id="850" id="bg2" x1="0" y1="0" x2="0" y2="1">
+                <stop data-id="851" offset="0%" stop-color="#060e25"/>
+                <stop data-id="852" offset="55%" stop-color="#1A2E6E"/>
+                <stop data-id="853" offset="100%" stop-color="#2952A3"/>
+              </linearGradient>
+              <radialGradient data-id="854" id="hglow" cx="50%" cy="0%" r="50%">
+                <stop data-id="855" offset="0%" stop-color="#C9A227" stop-opacity="0.45"/>
+                <stop data-id="856" offset="100%" stop-color="#C9A227" stop-opacity="0"/>
+              </radialGradient>
+              <radialGradient data-id="857" id="cglow" cx="50%" cy="50%" r="50%">
+                <stop data-id="858" offset="0%" stop-color="#C9A227" stop-opacity="0.5"/>
+                <stop data-id="859" offset="100%" stop-color="#C9A227" stop-opacity="0"/>
+              </radialGradient>
+              <linearGradient data-id="860" id="bridgeGrad2" x1="0" y1="0" x2="1" y2="0">
+                <stop data-id="861" offset="0%" stop-color="#6a4e0a"/>
+                <stop data-id="862" offset="20%" stop-color="#C9A227"/>
+                <stop data-id="863" offset="50%" stop-color="#ffd700"/>
+                <stop data-id="864" offset="80%" stop-color="#C9A227"/>
+                <stop data-id="865" offset="100%" stop-color="#6a4e0a"/>
+              </linearGradient>
+              <linearGradient data-id="866" id="crossGrad2" x1="0" y1="0" x2="0" y2="1">
+                <stop data-id="867" offset="0%" stop-color="#fff8dc"/>
+                <stop data-id="868" offset="40%" stop-color="#C9A227"/>
+                <stop data-id="869" offset="100%" stop-color="#8a6a10"/>
+              </linearGradient>
+              <marker data-id="870" id="arr2" markerWidth="8" markerHeight="6" refX="6" refY="3" orient="auto">
+                <path data-id="871" d="M0,0 L0,6 L8,3 z" fill="#ffd700" opacity="0.9"/>
+              </marker>
+            </defs>
+
+            <!-- Sky background -->
+            <rect data-id="872" width="1000" height="520" fill="url(#bg2)"/>
+            <!-- Heaven glow -->
+            <ellipse data-id="873" cx="500" cy="0" rx="420" ry="180" fill="url(#hglow)"/>
+
+            <!-- Light rays from top center -->
+            <line data-id="874" x1="500" y1="0" x2="60" y2="380" stroke="#C9A227" stroke-width="0.8" opacity="0.15"/>
+            <line data-id="875" x1="500" y1="0" x2="160" y2="400" stroke="#C9A227" stroke-width="0.8" opacity="0.15"/>
+            <line data-id="876" x1="500" y1="0" x2="280" y2="420" stroke="#C9A227" stroke-width="0.8" opacity="0.15"/>
+            <line data-id="877" x1="500" y1="0" x2="940" y2="380" stroke="#C9A227" stroke-width="0.8" opacity="0.15"/>
+            <line data-id="878" x1="500" y1="0" x2="840" y2="400" stroke="#C9A227" stroke-width="0.8" opacity="0.15"/>
+            <line data-id="879" x1="500" y1="0" x2="720" y2="420" stroke="#C9A227" stroke-width="0.8" opacity="0.15"/>
+
+            <!-- HEAVEN label -->
+            <text data-id="880" x="500" y="34" fill="#C9A227" font-size="11" font-family="Georgia,serif" text-anchor="middle" font-weight="700" letter-spacing="5">HEAVEN</text>
+            <text data-id="881" x="500" y="50" fill="#8aaccc" font-size="8.5" font-family="Georgia,serif" text-anchor="middle" font-style="italic">The Father's Heart — One New Man in Messiah — Ephesians 2:14</text>
+
+            <!-- EARTH ground panels -->
+            <polygon data-id="882" points="0,440 300,420 300,520 0,520" fill="#1a3a1a"/>
+            <polygon data-id="883" points="700,420 1000,440 1000,520 700,520" fill="#0d2030"/>
+            <rect data-id="884" x="295" y="440" width="410" height="80" fill="#060e1f"/>
+            <text data-id="885" x="500" y="468" fill="#4a6a8a" font-size="8" text-anchor="middle" font-style="italic">EARTH — the mission field</text>
+            <text data-id="886" x="500" y="480" fill="#3a5a7a" font-size="7.5" text-anchor="middle">Habakkuk 2:14</text>
+
+            <!-- ISRAEL left side -->
+            <text data-id="887" x="145" y="285" fill="#C9A227" font-size="22" font-family="Georgia,serif" text-anchor="middle" direction="rtl">יִשְׂרָאֵל</text>
+            <text data-id="888" x="145" y="305" fill="#ffffff" font-size="11" font-family="Georgia,serif" text-anchor="middle" font-weight="700" letter-spacing="3">ISRAEL</text>
+            <text data-id="889" x="145" y="320" fill="#90b890" font-size="8" text-anchor="middle" font-style="italic">The Root · The Covenant</text>
+            <!-- Menorah -->
+            <rect data-id="890" x="133" y="238" width="24" height="4" fill="#C9A227"/>
+            <rect data-id="891" x="143" y="192" width="4" height="46" fill="#C9A227"/>
+            <line data-id="892" x1="143" y1="210" x2="120" y2="192" stroke="#C9A227" stroke-width="2.5"/>
+            <line data-id="893" x1="143" y1="220" x2="128" y2="202" stroke="#C9A227" stroke-width="2.5"/>
+            <line data-id="894" x1="143" y1="230" x2="136" y2="212" stroke="#C9A227" stroke-width="2.5"/>
+            <line data-id="895" x1="147" y1="210" x2="170" y2="192" stroke="#C9A227" stroke-width="2.5"/>
+            <line data-id="896" x1="147" y1="220" x2="162" y2="202" stroke="#C9A227" stroke-width="2.5"/>
+            <line data-id="897" x1="147" y1="230" x2="154" y2="212" stroke="#C9A227" stroke-width="2.5"/>
+            <ellipse data-id="898" cx="145" cy="190" rx="3" ry="4.5" fill="#fffde0"/>
+            <ellipse data-id="899" cx="120" cy="190" rx="3" ry="4.5" fill="#fffde0"/>
+            <ellipse data-id="900" cx="128" cy="200" rx="3" ry="4.5" fill="#fffde0"/>
+            <ellipse data-id="901" cx="136" cy="210" rx="3" ry="4.5" fill="#fffde0"/>
+            <ellipse data-id="902" cx="170" cy="190" rx="3" ry="4.5" fill="#fffde0"/>
+            <ellipse data-id="903" cx="162" cy="200" rx="3" ry="4.5" fill="#fffde0"/>
+            <ellipse data-id="904" cx="154" cy="210" rx="3" ry="4.5" fill="#fffde0"/>
+            <text data-id="905" x="145" y="360" fill="#6a8a6a" font-size="7.5" text-anchor="middle" font-style="italic">Romans 11:18</text>
+
+            <!-- NATIONS right side -->
+            <text data-id="906" x="855" y="295" fill="#ffffff" font-size="11" font-family="Georgia,serif" text-anchor="middle" font-weight="700" letter-spacing="3">THE NATIONS</text>
+            <text data-id="907" x="855" y="312" fill="#C9A227" font-size="10" font-family="Georgia,serif" text-anchor="middle" letter-spacing="2">THE HARVEST</text>
+            <text data-id="908" x="855" y="328" fill="#90aac0" font-size="8" text-anchor="middle" font-style="italic">Every Tribe · Every Tongue</text>
+            <!-- Globe -->
+            <circle data-id="909" cx="855" cy="240" r="36" fill="#0d2a4a" stroke="#2952A3" stroke-width="2"/>
+            <ellipse data-id="910" cx="855" cy="240" rx="36" ry="14" fill="none" stroke="#3a6a9a" stroke-width="1"/>
+            <line data-id="911" x1="819" y1="240" x2="891" y2="240" stroke="#3a6a9a" stroke-width="1"/>
+            <line data-id="912" x1="855" y1="204" x2="855" y2="276" stroke="#3a6a9a" stroke-width="1"/>
+            <ellipse data-id="913" cx="855" cy="240" rx="20" ry="36" fill="none" stroke="#3a6a9a" stroke-width="0.8"/>
+            <circle data-id="914" cx="842" cy="228" r="10" fill="#C9A227" opacity="0.18"/>
+            <text data-id="915" x="855" y="360" fill="#5a7a9a" font-size="7.5" text-anchor="middle" font-style="italic">Matthew 28:19</text>
+
+            <!-- BRIDGE DECK -->
+            <rect data-id="916" x="110" y="352" width="780" height="20" fill="url(#bridgeGrad2)" rx="2"/>
+            <rect data-id="917" x="110" y="352" width="780" height="6" fill="#ffe97a" opacity="0.35" rx="2"/>
+            <rect data-id="918" x="110" y="372" width="780" height="6" fill="#000" opacity="0.25"/>
+
+            <!-- Approach ramps -->
+            <line data-id="919" x1="50" y1="382" x2="160" y2="363" stroke="#C9A227" stroke-width="4"/>
+            <line data-id="920" x1="950" y1="382" x2="840" y2="363" stroke="#C9A227" stroke-width="4"/>
+
+            <!-- Support pillars -->
+            <rect data-id="921" x="245" y="372" width="7" height="68" fill="#7a5e0a" rx="1"/>
+            <rect data-id="922" x="375" y="372" width="7" height="68" fill="#7a5e0a" rx="1"/>
+            <rect data-id="923" x="618" y="372" width="7" height="68" fill="#7a5e0a" rx="1"/>
+            <rect data-id="924" x="748" y="372" width="7" height="68" fill="#7a5e0a" rx="1"/>
+
+            <!-- Pillar labels -->
+            <text data-id="925" x="248" y="454" fill="#8aaccc" font-size="7.5" text-anchor="middle">Word &amp; Spirit</text>
+            <text data-id="926" x="378" y="454" fill="#8aaccc" font-size="7.5" text-anchor="middle">Covenant Love</text>
+            <text data-id="927" x="621" y="454" fill="#8aaccc" font-size="7.5" text-anchor="middle">The Gospel</text>
+            <text data-id="928" x="751" y="454" fill="#8aaccc" font-size="7.5" text-anchor="middle">Holy Spirit</text>
+
+            <!-- THE CROSS — center, most prominent -->
+            <circle data-id="929" cx="500" cy="218" r="52" fill="url(#cglow)"/>
+            <rect data-id="930" x="493" y="140" width="14" height="210" fill="url(#crossGrad2)" rx="2"/>
+            <rect data-id="931" x="438" y="196" width="124" height="14" fill="url(#crossGrad2)" rx="2"/>
+
+            <!-- Cross glow ring -->
+            <circle data-id="932" cx="500" cy="210" r="44" fill="none" stroke="#C9A227" stroke-width="0.8" opacity="0.4"/>
+
+            <!-- Suspension cables -->
+            <line data-id="933" x1="500" y1="210" x2="190" y2="363" stroke="#C9A227" stroke-width="1.2" opacity="0.5"/>
+            <line data-id="934" x1="500" y1="210" x2="310" y2="355" stroke="#C9A227" stroke-width="1.2" opacity="0.5"/>
+            <line data-id="935" x1="500" y1="210" x2="690" y2="355" stroke="#C9A227" stroke-width="1.2" opacity="0.5"/>
+            <line data-id="936" x1="500" y1="210" x2="810" y2="363" stroke="#C9A227" stroke-width="1.2" opacity="0.5"/>
+
+            <!-- Messiah labels -->
+            <text data-id="937" x="500" y="130" fill="#C9A227" font-size="16" font-family="Georgia,serif" text-anchor="middle">יֵשׁוּעַ</text>
+            <text data-id="938" x="500" y="147" fill="#ffffff" font-size="9.5" font-family="Georgia,serif" text-anchor="middle" font-weight="700" letter-spacing="4">MESSIAH</text>
+            <text data-id="939" x="500" y="160" fill="#B8CCE8" font-size="8" text-anchor="middle" font-style="italic">The Bridge · He is our Peace</text>
+
+            <!-- Movement arrows on bridge -->
+            <line data-id="940" x1="190" y1="362" x2="450" y2="362" stroke="#ffd700" stroke-width="2" opacity="0.7" marker-end="url(#arr2)"/>
+            <line data-id="941" x1="810" y1="362" x2="550" y2="362" stroke="#ffd700" stroke-width="2" opacity="0.7" marker-end="url(#arr2)"/>
+
+            <!-- Dove above cross -->
+            <path data-id="942" d="M490,118 Q498,108 510,112 Q520,106 528,114 Q518,118 510,116 Q508,124 500,126 Q492,124 490,118 Z" fill="#ffffff" opacity="0.75"/>
+            <path data-id="943" d="M478,116 Q484,112 490,118" fill="none" stroke="#fff" stroke-width="1.5" opacity="0.6"/>
+
+            <!-- Title bar -->
+            <text data-id="944" x="500" y="20" fill="#ffffff" font-size="13" font-family="Georgia,serif" text-anchor="middle" font-weight="700" letter-spacing="3">🌉 THE BRIDGE CALLING</text>
+          </svg>
+        </div>
+
+        <!-- Three explore cards -->
+        <div data-id="945" class="bridge-explore-grid" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:20px">
+
+          <!-- Israel card -->
+          <div data-id="946" style="background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 2px 10px rgba(26,46,110,0.12)">
+            <div data-id="947" style="background:#1a3a1a;padding:16px 20px;border-bottom:3px solid #C9A227">
+              <div data-id="948" style="font-size:1.4rem;margin-bottom:4px">🕎</div>
+              <div data-id="949" style="font-weight:700;color:#ffffff;font-family:Georgia,serif;font-size:1rem">The Root</div>
+              <div data-id="950" style="color:#C9A227;font-size:0.8rem">יִשְׂרָאֵל — Israel</div>
+            </div>
+            <div data-id="951" style="padding:16px;font-size:0.88rem;color:#333;line-height:1.7">
+              <p data-id="952" style="margin-bottom:8px">"You do not support the root, the root supports you." — Romans 11:18</p>
+              <p data-id="953" style="color:#555">Israel is the covenant foundation — the Torah, the Prophets, the Promised Messiah all flow from her story. We honor the root with love, for from Zion the Word goes forth.</p>
+            </div>
+          </div>
+
+          <!-- Messiah card -->
+          <div data-id="954" style="background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 2px 10px rgba(26,46,110,0.12)">
+            <div data-id="955" style="background:#1A2E6E;padding:16px 20px;border-bottom:3px solid #C9A227">
+              <div data-id="956" style="font-size:1.4rem;margin-bottom:4px">✝️</div>
+              <div data-id="957" style="font-weight:700;color:#ffffff;font-family:Georgia,serif;font-size:1rem">The Bridge</div>
+              <div data-id="958" style="color:#C9A227;font-size:0.8rem">יֵשׁוּעַ — Messiah</div>
+            </div>
+            <div data-id="959" style="padding:16px;font-size:0.88rem;color:#333;line-height:1.7">
+              <p data-id="960" style="margin-bottom:8px">"He himself is our peace, who has made the two groups one." — Ephesians 2:14</p>
+              <p data-id="961" style="color:#555">The cross is the meeting place of Heaven and Earth, Israel and the Nations, Law and Grace. Yeshua is not the end of Israel's story — He is its fulfillment and its bridge.</p>
+            </div>
+          </div>
+
+          <!-- Nations card -->
+          <div data-id="962" style="background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 2px 10px rgba(26,46,110,0.12)">
+            <div data-id="963" style="background:#0d2a4a;padding:16px 20px;border-bottom:3px solid #C9A227">
+              <div data-id="964" style="font-size:1.4rem;margin-bottom:4px">🌍</div>
+              <div data-id="965" style="font-weight:700;color:#ffffff;font-family:Georgia,serif;font-size:1rem">The Harvest</div>
+              <div data-id="966" style="color:#C9A227;font-size:0.8rem">הַקָּצִיר — The Nations</div>
+            </div>
+            <div data-id="967" style="padding:16px;font-size:0.88rem;color:#333;line-height:1.7">
+              <p data-id="968" style="margin-bottom:8px">"A great multitude from every nation, tribe, people and language." — Revelation 7:9</p>
+              <p data-id="969" style="color:#555">The Nations are the eternal heart of God. We carry the light of Messiah across every divide — building living bridges until the earth is filled with His glory.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Declaration -->
+        <div data-id="970" style="background:linear-gradient(135deg,#1A2E6E 0%,#2A7A6F 100%);border-radius:10px;padding:28px;text-align:center">
+          <div data-id="971" style="font-size:1.15rem;color:#ffffff;font-family:Georgia,serif;line-height:2.2;margin-bottom:12px">
+            We are bridge-bearers.<br data-id="972">
+            We stand between the Root and the Harvest.<br data-id="973">
+            We carry the light of Messiah across every divide.<br data-id="974">
+            <span data-id="975" style="color:#C9A227;font-weight:700">We prepare the way for His return.</span>
+          </div>
+          <div data-id="976" style="width:60px;height:2px;background:#C9A227;margin:0 auto 12px;border-radius:2px"></div>
+          <div data-id="977" style="color:#B8CCE8;font-size:0.82rem;letter-spacing:0.1em">Rooted in the Word · Led by the Spirit · Sent to the Nations</div>
+        </div>
+      </div>
+
+      <hr data-id="978" style="border:none;border-top:2px solid #e0e8f4;margin:32px 0">
+      <h3 data-id="979" style="font-size:1.1rem;font-weight:700;color:#1A2E6E;font-family:Georgia,serif;margin-bottom:20px">🌸 Seven-Petal Diagram — Life in the Spirit</h3>
+
+      <!-- Seven-Petal SVG -->
+      <div data-id="980" style="text-align:center;margin-bottom:32px">
+        <svg data-id="981" width="420" height="420" viewBox="0 0 420 420" style="max-width:100%;height:auto">
+          <!-- Petals -->
+          <g data-id="982" transform="rotate(0 210 210)">
+            <ellipse data-id="983" cx="210" cy="130" rx="38" ry="68" fill="#BBDEFB" opacity="0.8"/>
+            <text data-id="984" x="210" y="82" text-anchor="middle" font-size="9" font-weight="700" fill="#1A2E6E">REALM</text>
+            <text data-id="985" x="210" y="94" text-anchor="middle" font-size="8" fill="#2952A3">Rom. 8</text>
+          </g>
+          <g data-id="986" transform="rotate(51.4 210 210)">
+            <ellipse data-id="987" cx="210" cy="130" rx="38" ry="68" fill="#CE93D8" opacity="0.8"/>
+            <text data-id="988" x="210" y="82" text-anchor="middle" font-size="8" font-weight="700" fill="#4A148C" transform="rotate(-51.4 210 82)">RELATIONSHIP</text>
+            <text data-id="989" x="210" y="94" text-anchor="middle" font-size="8" fill="#6A1B9A" transform="rotate(-51.4 210 94)">Eph. 2-4</text>
+          </g>
+          <g data-id="990" transform="rotate(102.8 210 210)">
+            <ellipse data-id="991" cx="210" cy="130" rx="38" ry="68" fill="#A5D6A7" opacity="0.8"/>
+            <text data-id="992" x="210" y="82" text-anchor="middle" font-size="8" font-weight="700" fill="#1B5E20" transform="rotate(-102.8 210 82)">TRANSFORM</text>
+            <text data-id="993" x="210" y="94" text-anchor="middle" font-size="8" fill="#2E7D32" transform="rotate(-102.8 210 94)">Gal. 5</text>
+          </g>
+          <g data-id="994" transform="rotate(154.3 210 210)">
+            <ellipse data-id="995" cx="210" cy="130" rx="38" ry="68" fill="#FFF176" opacity="0.8"/>
+            <text data-id="996" x="210" y="82" text-anchor="middle" font-size="9" font-weight="700" fill="#F57F17" transform="rotate(-154.3 210 82)">PRAYER</text>
+            <text data-id="997" x="210" y="94" text-anchor="middle" font-size="8" fill="#F9A825" transform="rotate(-154.3 210 94)">Eph. 6</text>
+          </g>
+          <g data-id="998" transform="rotate(205.7 210 210)">
+            <ellipse data-id="999" cx="210" cy="130" rx="38" ry="68" fill="#F48FB1" opacity="0.8"/>
+            <text data-id="1000" x="210" y="82" text-anchor="middle" font-size="9" font-weight="700" fill="#880E4F" transform="rotate(-205.7 210 82)">WORSHIP</text>
+            <text data-id="1001" x="210" y="94" text-anchor="middle" font-size="8" fill="#AD1457" transform="rotate(-205.7 210 94)">John 4</text>
+          </g>
+          <g data-id="1002" transform="rotate(257.1 210 210)">
+            <ellipse data-id="1003" cx="210" cy="130" rx="38" ry="68" fill="#80DEEA" opacity="0.8"/>
+            <text data-id="1004" x="210" y="82" text-anchor="middle" font-size="8" font-weight="700" fill="#006064" transform="rotate(-257.1 210 82)">REVELATION</text>
+            <text data-id="1005" x="210" y="94" text-anchor="middle" font-size="8" fill="#00838F" transform="rotate(-257.1 210 94)">Rev. 1</text>
+          </g>
+          <g data-id="1006" transform="rotate(308.6 210 210)">
+            <ellipse data-id="1007" cx="210" cy="130" rx="38" ry="68" fill="#FFCC80" opacity="0.8"/>
+            <text data-id="1008" x="210" y="82" text-anchor="middle" font-size="9" font-weight="700" fill="#E65100" transform="rotate(-308.6 210 82)">MISSION</text>
+            <text data-id="1009" x="210" y="94" text-anchor="middle" font-size="8" fill="#EF6C00" transform="rotate(-308.6 210 94)">Luke 4</text>
+          </g>
+          <!-- Center circle on top -->
+          <circle data-id="1010" cx="210" cy="210" r="62" fill="#1A2E6E"/>
+          <text data-id="1011" x="210" y="200" text-anchor="middle" font-size="9" fill="#fff" font-weight="600">Fellowship of the</text>
+          <text data-id="1012" x="210" y="214" text-anchor="middle" font-size="9" fill="#fff" font-weight="600">Holy Spirit</text>
+          <text data-id="1013" x="210" y="232" text-anchor="middle" font-size="8" fill="#C9A227">2 Cor. 13:14</text>
+        </svg>
+        <p data-id="1014" style="font-size:0.88rem;color:#555;margin-top:12px;max-width:500px;margin-left:auto;margin-right:auto;line-height:1.55">The seven dimensions of life fully in the Spirit — all radiating from the center: the Fellowship of the Holy Spirit.</p>
+      </div>
+
+      <h2 data-id="1015" style="font-family:'Crimson Pro',Georgia,serif;font-size:1.3rem;color:#2952A3;margin-bottom:16px">Symbol Descriptions for Visual Design</h2>
+
+      <div data-id="1016" class="grid-2">
+        <div data-id="1017" class="symbol-card">
+          <div data-id="1018" style="font-size:1.2rem;margin-bottom:4px">💫</div>
+          <div data-id="1019" class="symbol-title">Covenant Seal</div>
+          <div data-id="1020" class="symbol-hebrew">בְּרִית</div>
+          <p data-id="1021" class="symbol-desc">Two interlocking rings of fire over a scroll. Crimson and gold. Canva: rings element + fire frame + Hebrew text overlay.</p>
+        </div>
+        <div data-id="1022" class="symbol-card">
+          <div data-id="1023" style="font-size:1.2rem;margin-bottom:4px">🏛️</div>
+          <div data-id="1024" class="symbol-title">Kingdom Gate</div>
+          <div data-id="1025" class="symbol-hebrew">מַלְכוּת</div>
+          <p data-id="1026" class="symbol-desc">Ancient city gate with light streaming through. Indigo and gold. Canva: arch frame + light beam + text overlay.</p>
+        </div>
+        <div data-id="1027" class="symbol-card">
+          <div data-id="1028" style="font-size:1.2rem;margin-bottom:4px">🕎</div>
+          <div data-id="1029" class="symbol-title">Spirit Flame</div>
+          <div data-id="1030" class="symbol-hebrew">רוּחַ</div>
+          <p data-id="1031" class="symbol-desc">Seven-flame menorah, each flame a Spirit ministry. Amber and gold. Canva: menorah graphic + 7 labeled flames.</p>
+        </div>
+        <div data-id="1032" class="symbol-card">
+          <div data-id="1033" style="font-size:1.2rem;margin-bottom:4px">🪔</div>
+          <div data-id="1034" class="symbol-title">Bride's Lamp</div>
+          <div data-id="1035" class="symbol-hebrew">כַּלָּה</div>
+          <p data-id="1036" class="symbol-desc">Clay oil lamp burning against a night sky. Amber and navy. Canva: lamp illustration + star overlay + gold text.</p>
+        </div>
+        <div data-id="1037" class="symbol-card">
+          <div data-id="1038" style="font-size:1.2rem;margin-bottom:4px">🛤️</div>
+          <div data-id="1039" class="symbol-title">Talmid's Path</div>
+          <div data-id="1040" class="symbol-hebrew">הָלַךְ</div>
+          <p data-id="1041" class="symbol-desc">Winding road with sandal prints toward a distant light. Earth and gold. Canva: path photo + sandal elements + glow.</p>
+        </div>
+        <div data-id="1042" class="symbol-card">
+          <div data-id="1043" style="font-size:1.2rem;margin-bottom:4px">🌧️</div>
+          <div data-id="1044" class="symbol-title">Revival Rain</div>
+          <div data-id="1045" class="symbol-hebrew">גֶּשֶׁם</div>
+          <p data-id="1046" class="symbol-desc">Rain falling on dry cracked earth beginning to bloom. Blue and green. Canva: rain texture + cracked earth + growing plant.</p>
+        </div>
+        <div data-id="1047" class="symbol-card" style="grid-column:1/-1">
+          <div data-id="1048" style="font-size:1.2rem;margin-bottom:4px">🌾</div>
+          <div data-id="1049" class="symbol-title">Harvest Field</div>
+          <div data-id="1050" class="symbol-hebrew">קָצִיר</div>
+          <p data-id="1051" class="symbol-desc">Golden wheat field, ready for harvest. Gold and amber. Canva: wheat field photo + large Hebrew text overlay.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ SCRIPTS & BLESSINGS ============ -->
+    <div data-id="1052" class="section" id="sec-scripts">
+      <h1 data-id="1053" class="page-heading">📜 Immersive Scripts &amp; Blessings</h1>
+      <p data-id="1054" class="section-subtitle">Ready-to-use scripts with voice indicators. <span data-id="1055" class="voice-narrator">NARRATOR = teal italic.</span> <span data-id="1056" class="voice-leader">LEADER = navy bold.</span> <span data-id="1057" class="voice-group">GROUP = gold bold.</span></p>
+
+      <!-- Script 1 -->
+      <div data-id="1058" class="script-card">
+        <div data-id="1059" class="script-header" style="background:linear-gradient(135deg,#1A2E6E,#2952A3)">Script 1 — "Before We Begin" (Opening Immersion)</div>
+        <div data-id="1060" class="script-body">
+          <p data-id="1061" class="voice-narrator" style="margin-bottom:12px">[NARRATOR] "Before the first word was spoken… there was the Ruach. Hovering. Waiting. Ready. Before the first lesson began… the Spirit was already here. Before you arrived today… He was already in this room. This is not a classroom. This is holy ground. Take a breath. That breath — that Neshama — is the gift of the One who breathed life into the first human being. You carry His breath. Now breathe it out as a prayer."</p>
+          <p data-id="1062" class="voice-pause">⏸ PAUSE — 30 seconds of silence</p>
+          <p data-id="1063" class="voice-leader" style="margin-bottom:12px">[LEADER] "Adonai, open our eyes. Open our ears. Open our hearts. We are not here to collect information — we are here to encounter You. Speak, Lord. Your servants are listening."</p>
+          <p data-id="1064" class="voice-group">[GROUP] "We are listening. We are here. We are Yours."</p>
+        </div>
+      </div>
+
+      <!-- Script 2 -->
+      <div data-id="1065" class="script-card">
+        <div data-id="1066" class="script-header" style="background:linear-gradient(135deg,#6A1B9A,#AB47BC)">Script 2 — The Bride's Commissioning Blessing</div>
+        <div data-id="1067" class="script-body">
+          <p data-id="1068" class="voice-narrator" style="margin-bottom:12px">[NARRATOR] "To every Bride in this room — You are not overlooked. You are not forgotten. You are not behind. You are in your Et — your appointed season. The One who called you is faithful. The One who claimed you will complete what He began."</p>
+          <p data-id="1069" class="voice-leader" style="margin-bottom:12px">[LEADER] "Receive this blessing: May the God of the Covenant draw you into deeper preparation. May the oil of His Spirit never run dry in your life. May the garments He has given you never be laid down in shame. And when He comes — may your lamp be burning, your oil be full, and your heart be ready. You are the Bride He is coming for. Go — and be who He says you are."</p>
+          <p data-id="1070" class="voice-group">[GROUP] "Amen. So be it. Come, Lord Yeshua."</p>
+        </div>
+      </div>
+
+      <!-- Script 3 -->
+      <div data-id="1071" class="script-card">
+        <div data-id="1072" class="script-header" style="background:linear-gradient(135deg,#BF360C,#E65100)">Script 3 — Revival Responsive Reading: "When Heaven Opens"</div>
+        <div data-id="1073" class="script-body">
+          <div data-id="1074" class="responsive-line"><span data-id="1075" class="voice-leader">[LEADER]:</span> "Lord, we have heard the report of Your works." <span data-id="1076" class="voice-group">[GROUP]:</span> "Revive Your work, O Lord."</div>
+          <div data-id="1077" class="responsive-line"><span data-id="1078" class="voice-leader">[LEADER]:</span> "In the middle of our dry season —" <span data-id="1079" class="voice-group">[GROUP]:</span> "Send the rain."</div>
+          <div data-id="1080" class="responsive-line"><span data-id="1081" class="voice-leader">[LEADER]:</span> "In the middle of our silence —" <span data-id="1082" class="voice-group">[GROUP]:</span> "Let Your voice thunder."</div>
+          <div data-id="1083" class="responsive-line"><span data-id="1084" class="voice-leader">[LEADER]:</span> "We are not satisfied with church as usual." <span data-id="1085" class="voice-group">[GROUP]:</span> "We are hungry for You."</div>
+          <div data-id="1086" class="responsive-line"><span data-id="1087" class="voice-leader">[LEADER]:</span> "We will not settle for form without fire." <span data-id="1088" class="voice-group">[GROUP]:</span> "Give us fire, O God."</div>
+          <div data-id="1089" class="responsive-line"><span data-id="1090" class="voice-leader">[LEADER]:</span> "Bend us. Break us. Fill us. Send us." <span data-id="1091" class="voice-group">[GROUP]:</span> "We are Yours — do with us as You will."</div>
+          <div data-id="1092" class="responsive-line"><span data-id="1093" class="voice-leader">[LEADER]:</span> "Let revival begin —" <span data-id="1094" class="voice-group">[GROUP]:</span> "In us. In this place. In this generation. Amen."</div>
+        </div>
+      </div>
+
+      <!-- Script 4 -->
+      <div data-id="1095" class="script-card">
+        <div data-id="1096" class="script-header" style="background:linear-gradient(135deg,#1B5E20,#388E3C)">Script 4 — Talmid Commissioning</div>
+        <div data-id="1097" class="script-body">
+          <p data-id="1098" class="voice-leader" style="margin-bottom:12px">[LEADER] "You have walked the path of the Talmid. You have come and seen. You have come and followed. You have sat at the Rabbi's feet and learned His ways. Now — He sends you. Not because you are perfect. But because He says you are ready. You carry His authority. You carry His yoke. You carry His name. Wherever the dust of your feet falls — the Kingdom falls. Go — in the dust of the Rabbi's feet. Go — and make Talmidim."</p>
+          <p data-id="1099" class="voice-group">[GROUP] "We go. We are sent. We carry His name. Amen."</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ PRINTABLE HANDOUTS ============ -->
+    <div data-id="1100" class="section" id="sec-handouts">
+      <h1 data-id="1101" class="page-heading">🖨️ Printable Handouts</h1>
+      <p data-id="1102" class="section-subtitle">Clean, print-ready study sheets for each module. To print: use Ctrl+P (or Cmd+P on Mac) and select the desired handout.</p>
+
+      <!-- HANDOUT: The Bridge Calling -->
+      <div data-id="1103" style="background:#fff;border-radius:10px;box-shadow:0 2px 12px rgba(26,46,110,0.12);overflow:hidden;margin-bottom:24px">
+        <div data-id="1104" style="background:#0f1535;padding:18px 24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
+          <div data-id="1105">
+            <div data-id="1106" style="font-weight:700;color:#ffffff;font-family:Georgia,serif;font-size:1.05rem">🌉 The Bridge Calling</div>
+            <div data-id="1107" style="color:#C9A227;font-size:0.8rem;margin-top:2px">Module 1 Participant Handout · mobileministry.net</div>
+          </div>
+          <button data-id="1108" id="btn-print-bridge" style="background:#C9A227;color:#0f1535;border:none;padding:9px 18px;border-radius:6px;font-weight:700;cursor:pointer;font-size:0.85rem">🖨️ Print</button>
+        </div>
+
+        <!-- Handout Preview -->
+        <div data-id="1109" id="handout-bridge" style="padding:28px 32px;font-family:Georgia,serif;color:#1A1A2E;max-width:700px">
+
+          <!-- Title block -->
+          <div data-id="1110" style="text-align:center;border-bottom:2px solid #C9A227;padding-bottom:16px;margin-bottom:20px">
+            <div data-id="1111" style="font-size:1.8rem;font-weight:700;color:#1A2E6E;letter-spacing:1px">🌉 THE BRIDGE CALLING</div>
+            <div data-id="1112" style="font-size:0.95rem;color:#2A7A6F;margin-top:4px;font-style:italic">Israel · Messiah · The Nations · Heaven to Earth</div>
+            <div data-id="1113" style="font-size:0.8rem;color:#888;margin-top:6px">Mobile Ministry | mobileministry.net | Module 1</div>
+          </div>
+
+          <!-- Three pillars row -->
+          <div data-id="1114" style="display:grid;grid-template-columns:1fr auto 1fr;gap:12px;margin-bottom:20px;text-align:center;align-items:center">
+            <div data-id="1115" style="background:#1a3a1a;color:#fff;border-radius:8px;padding:14px 10px">
+              <div data-id="1116" style="font-size:1.1rem;margin-bottom:4px">🕎</div>
+              <div data-id="1117" style="font-weight:700;font-size:0.9rem;color:#C9A227">THE ROOT</div>
+              <div data-id="1118" style="font-size:0.8rem;color:#90c090;margin-top:2px">Israel</div>
+              <div data-id="1119" style="font-size:0.72rem;color:#aaa;margin-top:4px;font-style:italic">Romans 11:18</div>
+            </div>
+            <div data-id="1120" style="background:#1A2E6E;color:#fff;border-radius:8px;padding:14px 10px">
+              <div data-id="1121" style="font-size:1.4rem;margin-bottom:4px">✝</div>
+              <div data-id="1122" style="font-weight:700;font-size:0.9rem;color:#C9A227">THE BRIDGE</div>
+              <div data-id="1123" style="font-size:0.8rem;color:#B8CCE8;margin-top:2px">Messiah</div>
+              <div data-id="1124" style="font-size:0.72rem;color:#aaa;margin-top:4px;font-style:italic">Ephesians 2:14</div>
+            </div>
+            <div data-id="1125" style="background:#0d2a4a;color:#fff;border-radius:8px;padding:14px 10px">
+              <div data-id="1126" style="font-size:1.1rem;margin-bottom:4px">🌍</div>
+              <div data-id="1127" style="font-weight:700;font-size:0.9rem;color:#C9A227">THE HARVEST</div>
+              <div data-id="1128" style="font-size:0.8rem;color:#90aac0;margin-top:2px">The Nations</div>
+              <div data-id="1129" style="font-size:0.72rem;color:#aaa;margin-top:4px;font-style:italic">Matthew 28:19</div>
+            </div>
+          </div>
+
+          <!-- Key scripture -->
+          <div data-id="1130" style="background:#F0F4FB;border-left:4px solid #C9A227;padding:12px 16px;margin-bottom:20px;border-radius:0 6px 6px 0">
+            <div data-id="1131" style="font-style:italic;color:#1A2E6E;font-size:0.93rem;line-height:1.65">"He himself is our peace, who has made the two groups one and has destroyed the barrier, the dividing wall of hostility... His purpose was to create in himself one new humanity out of the two."</div>
+            <div data-id="1132" style="font-size:0.8rem;color:#2A7A6F;margin-top:6px;font-weight:700">— Ephesians 2:14–15</div>
+          </div>
+
+          <!-- Four Pillars -->
+          <div data-id="1133" style="margin-bottom:20px">
+            <div data-id="1134" style="font-weight:700;color:#1A2E6E;font-size:0.95rem;margin-bottom:10px;border-bottom:1px solid #e0e8f4;padding-bottom:6px">🏛 FOUR PILLARS OF THE BRIDGE</div>
+            <div data-id="1135" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+              <div data-id="1136" style="font-size:0.85rem;padding:8px 12px;background:#f8f9ff;border-radius:6px;border-left:3px solid #C9A227"><strong data-id="1137">📖 Word &amp; Spirit</strong> — Biblical depth and Spirit-empowered living together.</div>
+              <div data-id="1138" style="font-size:0.85rem;padding:8px 12px;background:#f8f9ff;border-radius:6px;border-left:3px solid #C9A227"><strong data-id="1139">💛 Covenant Love</strong> — חֶסֶד Hesed — the loyal love that holds the bridge.</div>
+              <div data-id="1140" style="font-size:0.85rem;padding:8px 12px;background:#f8f9ff;border-radius:6px;border-left:3px solid #2952A3"><strong data-id="1141">✝ The Gospel</strong> — The Good News that Yeshua tore down the dividing wall.</div>
+              <div data-id="1142" style="font-size:0.85rem;padding:8px 12px;background:#f8f9ff;border-radius:6px;border-left:3px solid #2952A3"><strong data-id="1143">🕊 Holy Spirit</strong> — The Wind that moves across the bridge in both directions.</div>
+            </div>
+          </div>
+
+          <!-- Seven responses -->
+          <div data-id="1144" style="margin-bottom:20px">
+            <div data-id="1145" style="font-weight:700;color:#1A2E6E;font-size:0.95rem;margin-bottom:10px;border-bottom:1px solid #e0e8f4;padding-bottom:6px">🌉 SEVEN RESPONSES OF A BRIDGE-BEARER</div>
+            <ol data-id="1146" style="padding-left:20px;font-size:0.87rem;line-height:2;color:#333">
+              <li data-id="1147"><strong data-id="1148">Minister to the Lord First</strong> — Everything flows from encounter and prayer.</li>
+              <li data-id="1149"><strong data-id="1150">Know the Root</strong> — Honor Israel's story. Let the root nourish you.</li>
+              <li data-id="1151"><strong data-id="1152">Walk in the Spirit</strong> — Stay filled. The Spirit moves across the bridge.</li>
+              <li data-id="1153"><strong data-id="1154">Love with Hesed</strong> — Loyal, covenant love builds every bridge.</li>
+              <li data-id="1155"><strong data-id="1156">Go to the Nations</strong> — The harvest is ripe. Cross every divide.</li>
+              <li data-id="1157"><strong data-id="1158">Go Mobile</strong> — Resources and presence that travel wherever you go.</li>
+              <li data-id="1159"><strong data-id="1160">Be the Bridge</strong> — Stand in the gap between the Root and the Harvest.</li>
+            </ol>
+          </div>
+
+          <!-- Hebrew words -->
+          <div data-id="1161" style="margin-bottom:20px">
+            <div data-id="1162" style="font-weight:700;color:#1A2E6E;font-size:0.95rem;margin-bottom:10px;border-bottom:1px solid #e0e8f4;padding-bottom:6px">🌿 HEBREW MOMENTS</div>
+            <div data-id="1163" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center">
+              <div data-id="1164" style="font-size:0.82rem"><span data-id="1165" style="font-size:1.3rem;color:#2A7A6F;display:block;direction:rtl">גֶּשֶׁר</span><strong data-id="1166">Gesher</strong><br data-id="1167"><span data-id="1168" style="color:#666">Bridge</span></div>
+              <div data-id="1169" style="font-size:0.82rem"><span data-id="1170" style="font-size:1.3rem;color:#2A7A6F;display:block;direction:rtl">חֶסֶד</span><strong data-id="1171">Hesed</strong><br data-id="1172"><span data-id="1173" style="color:#666">Covenant Love</span></div>
+              <div data-id="1174" style="font-size:0.82rem"><span data-id="1175" style="font-size:1.3rem;color:#2A7A6F;display:block;direction:rtl">אֶחָד</span><strong data-id="1176">Echad</strong><br data-id="1177"><span data-id="1178" style="color:#666">One</span></div>
+              <div data-id="1179" style="font-size:0.82rem"><span data-id="1180" style="font-size:1.3rem;color:#2A7A6F;display:block;direction:rtl">שָׁלוֹם</span><strong data-id="1181">Shalom</strong><br data-id="1182"><span data-id="1183" style="color:#666">Wholeness</span></div>
+              <div data-id="1184" style="font-size:0.82rem"><span data-id="1185" style="font-size:1.3rem;color:#2A7A6F;display:block;direction:rtl">קָצִיר</span><strong data-id="1186">Katsir</strong><br data-id="1187"><span data-id="1188" style="color:#666">Harvest</span></div>
+              <div data-id="1189" style="font-size:0.82rem"><span data-id="1190" style="font-size:1.3rem;color:#2A7A6F;display:block;direction:rtl">גֶּשֶׁם</span><strong data-id="1191">Geshem</strong><br data-id="1192"><span data-id="1193" style="color:#666">Rain, Revival</span></div>
+            </div>
+          </div>
+
+          <!-- Reflection -->
+          <div data-id="1194" style="margin-bottom:20px">
+            <div data-id="1195" style="font-weight:700;color:#1A2E6E;font-size:0.95rem;margin-bottom:10px;border-bottom:1px solid #e0e8f4;padding-bottom:6px">✍ REFLECTION</div>
+            <div data-id="1196" style="font-size:0.85rem;color:#444;margin-bottom:8px">Which of the 7 bridge-bearer responses is the Spirit highlighting most for you right now?</div>
+            <div data-id="1197" style="border-bottom:1px solid #ccc;height:22px;margin-bottom:7px"></div>
+            <div data-id="1198" style="border-bottom:1px solid #ccc;height:22px;margin-bottom:7px"></div>
+            <div data-id="1199" style="border-bottom:1px solid #ccc;height:22px;margin-bottom:7px"></div>
+            <div data-id="1200" style="font-size:0.85rem;color:#444;margin-top:12px;margin-bottom:8px">If you took the Bridge Calling seriously this week — what would change?</div>
+            <div data-id="1201" style="border-bottom:1px solid #ccc;height:22px;margin-bottom:7px"></div>
+            <div data-id="1202" style="border-bottom:1px solid #ccc;height:22px"></div>
+          </div>
+
+          <!-- Declaration -->
+          <div data-id="1203" style="background:#1A2E6E;border-radius:8px;padding:18px;text-align:center;color:#fff">
+            <div data-id="1204" style="font-size:1rem;font-family:Georgia,serif;line-height:2;margin-bottom:8px">
+              We are bridge-bearers.<br data-id="1205">
+              We stand between the Root and the Harvest.<br data-id="1206">
+              We carry the light of Messiah across every divide.<br data-id="1207">
+              <span data-id="1208" style="color:#C9A227;font-weight:700">We prepare the way for His return.</span>
+            </div>
+            <div data-id="1209" style="font-size:0.75rem;color:#B8CCE8;letter-spacing:0.1em">Rooted in the Word · Led by the Spirit · Sent to the Nations</div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Handout 1 -->
+      <div data-id="1210" class="handout-card">
+        <div data-id="1211" class="handout-title">Life in the Spirit</div>
+        <div data-id="1212" class="handout-subtitle">חיים ברוח</div>
+        <div data-id="1213" class="handout-hebrew-word">רוּחַ</div>
+        <p data-id="1214" style="font-size:0.8rem;color:#888;text-align:center;margin-bottom:14px">Ruach — Spirit, Wind, Breath</p>
+
+        <h4 data-id="1215" style="font-size:0.85rem;color:#2952A3;font-weight:700;margin-bottom:8px">Scripture Anchors</h4>
+        <p data-id="1216" class="handout-scripture">1. Romans 8:1–17</p>
+        <p data-id="1217" class="handout-scripture">2. 2 Corinthians 13:14</p>
+        <p data-id="1218" class="handout-scripture">3. Galatians 5:22–25</p>
+        <p data-id="1219" class="handout-scripture">4. Ephesians 4:1–6</p>
+        <p data-id="1220" class="handout-scripture" style="margin-bottom:14px">5. John 4:23–24</p>
+
+        <h4 data-id="1221" style="font-size:0.85rem;color:#2952A3;font-weight:700;margin-bottom:8px">Reflection Questions</h4>
+        <p data-id="1222" class="handout-question">1. Which petal feels most alive in your life right now?</p>
+        <p data-id="1223" class="handout-question">2. Which petal feels dormant — and why?</p>
+        <p data-id="1224" class="handout-question">3. How does fellowship (not power) reframe your view of the Holy Spirit?</p>
+        <p data-id="1225" class="handout-question">4. Where do you sense the Ruach most in daily life?</p>
+        <p data-id="1226" class="handout-question" style="margin-bottom:14px">5. Write a personal invitation to the Holy Spirit for one area of your life.</p>
+
+        <h4 data-id="1227" style="font-size:0.85rem;color:#2952A3;font-weight:700;margin-bottom:8px">Notes</h4>
+        <div data-id="1228" class="note-line"></div><div data-id="1229" class="note-line"></div><div data-id="1230" class="note-line"></div><div data-id="1231" class="note-line"></div><div data-id="1232" class="note-line"></div><div data-id="1233" class="note-line"></div>
+
+        <div data-id="1234" class="handout-footer">Mobile Ministry | mobileministry.net | Rooted in the Word · Led by the Spirit · Sent to the Nations</div>
+      </div>
+
+      <!-- Handout 2 -->
+      <div data-id="1235" class="handout-card">
+        <div data-id="1236" class="handout-title">The Bride's Journey</div>
+        <div data-id="1237" class="handout-subtitle">מסע הכלה</div>
+        <div data-id="1238" class="handout-hebrew-word">כַּלָּה</div>
+        <p data-id="1239" style="font-size:0.8rem;color:#888;text-align:center;margin-bottom:14px">Kallah — Bride, Complete</p>
+
+        <h4 data-id="1240" style="font-size:0.85rem;color:#2952A3;font-weight:700;margin-bottom:8px">Scripture Anchors</h4>
+        <p data-id="1241" class="handout-scripture">1. Song of Solomon 2:10</p>
+        <p data-id="1242" class="handout-scripture">2. Hosea 2:14</p>
+        <p data-id="1243" class="handout-scripture">3. Esther 2:12</p>
+        <p data-id="1244" class="handout-scripture">4. Isaiah 61:10</p>
+        <p data-id="1245" class="handout-scripture" style="margin-bottom:14px">5. Revelation 21:2</p>
+
+        <h4 data-id="1246" style="font-size:0.85rem;color:#2952A3;font-weight:700;margin-bottom:8px">Reflection Questions</h4>
+        <p data-id="1247" class="handout-question">1. Which of the 7 scenes speaks to your current season?</p>
+        <p data-id="1248" class="handout-question">2. How does knowing you are already chosen change how you live?</p>
+        <p data-id="1249" class="handout-question">3. What area of preparation is the Spirit calling you into?</p>
+        <p data-id="1250" class="handout-question">4. Is your lamp burning? What fills your oil?</p>
+        <p data-id="1251" class="handout-question" style="margin-bottom:14px">5. What will it mean to hear "Well done, radiant one"?</p>
+
+        <h4 data-id="1252" style="font-size:0.85rem;color:#2952A3;font-weight:700;margin-bottom:8px">Notes</h4>
+        <div data-id="1253" class="note-line"></div><div data-id="1254" class="note-line"></div><div data-id="1255" class="note-line"></div><div data-id="1256" class="note-line"></div><div data-id="1257" class="note-line"></div><div data-id="1258" class="note-line"></div>
+
+        <div data-id="1259" class="handout-footer">Mobile Ministry | mobileministry.net | Rooted in the Word · Led by the Spirit · Sent to the Nations</div>
+      </div>
+
+      <!-- Handout 3 -->
+      <div data-id="1260" class="handout-card">
+        <div data-id="1261" class="handout-title">Revival Patterns</div>
+        <div data-id="1262" class="handout-subtitle">תְּחִיָּה</div>
+        <div data-id="1263" class="handout-hebrew-word">תְּחִיָּה</div>
+        <p data-id="1264" style="font-size:0.8rem;color:#888;text-align:center;margin-bottom:14px">Techiyah — Revival, Resurrection</p>
+
+        <h4 data-id="1265" style="font-size:0.85rem;color:#2952A3;font-weight:700;margin-bottom:8px">Scripture Anchors</h4>
+        <p data-id="1266" class="handout-scripture">1. Habakkuk 3:2</p>
+        <p data-id="1267" class="handout-scripture">2. Amos 8:11</p>
+        <p data-id="1268" class="handout-scripture">3. Acts 1:14</p>
+        <p data-id="1269" class="handout-scripture">4. Acts 2:41</p>
+        <p data-id="1270" class="handout-scripture" style="margin-bottom:14px">5. Zechariah 1:3</p>
+
+        <h4 data-id="1271" style="font-size:0.85rem;color:#2952A3;font-weight:700;margin-bottom:8px">Reflection Questions</h4>
+        <p data-id="1272" class="handout-question">1. Which of the 7 revival signs do you see stirring right now?</p>
+        <p data-id="1273" class="handout-question">2. What does holy hunger feel like — when did you last experience it?</p>
+        <p data-id="1274" class="handout-question">3. Is your community praying corporately?</p>
+        <p data-id="1275" class="handout-question">4. Are we preaching for comfort or conviction?</p>
+        <p data-id="1276" class="handout-question" style="margin-bottom:14px">5. What must be cleared for revival to flow through you?</p>
+
+        <h4 data-id="1277" style="font-size:0.85rem;color:#2952A3;font-weight:700;margin-bottom:8px">Notes</h4>
+        <div data-id="1278" class="note-line"></div><div data-id="1279" class="note-line"></div><div data-id="1280" class="note-line"></div><div data-id="1281" class="note-line"></div><div data-id="1282" class="note-line"></div><div data-id="1283" class="note-line"></div>
+
+        <div data-id="1284" class="handout-footer">Mobile Ministry | mobileministry.net | Rooted in the Word · Led by the Spirit · Sent to the Nations</div>
+      </div>
+
+      <!-- Handout 4 -->
+      <div data-id="1285" class="handout-card">
+        <div data-id="1286" class="handout-title">Covenant Kingdom</div>
+        <div data-id="1287" class="handout-subtitle">מַלְכוּת הַבְּרִית</div>
+        <div data-id="1288" class="handout-hebrew-word">בְּרִית</div>
+        <p data-id="1289" style="font-size:0.8rem;color:#888;text-align:center;margin-bottom:14px">Berit — Covenant, To Cut</p>
+
+        <h4 data-id="1290" style="font-size:0.85rem;color:#2952A3;font-weight:700;margin-bottom:8px">Scripture Anchors</h4>
+        <p data-id="1291" class="handout-scripture">1. Genesis 15:17</p>
+        <p data-id="1292" class="handout-scripture">2. Deuteronomy 29:12–13</p>
+        <p data-id="1293" class="handout-scripture">3. Matthew 6:33</p>
+        <p data-id="1294" class="handout-scripture">4. Exodus 19:5–6</p>
+        <p data-id="1295" class="handout-scripture" style="margin-bottom:14px">5. Lamentations 3:22–23</p>
+
+        <h4 data-id="1296" style="font-size:0.85rem;color:#2952A3;font-weight:700;margin-bottom:8px">Reflection Questions</h4>
+        <p data-id="1297" class="handout-question">1. How does understanding Berit change the way you approach God?</p>
+        <p data-id="1298" class="handout-question">2. God walked through the pieces alone — what does this mean?</p>
+        <p data-id="1299" class="handout-question">3. Which covenant sign is most meaningful to you?</p>
+        <p data-id="1300" class="handout-question">4. What does it mean to live as a Kingdom citizen this week?</p>
+        <p data-id="1301" class="handout-question" style="margin-bottom:14px">5. Where are you being invited to use the keys of the Kingdom?</p>
+
+        <h4 data-id="1302" style="font-size:0.85rem;color:#2952A3;font-weight:700;margin-bottom:8px">Notes</h4>
+        <div data-id="1303" class="note-line"></div><div data-id="1304" class="note-line"></div><div data-id="1305" class="note-line"></div><div data-id="1306" class="note-line"></div><div data-id="1307" class="note-line"></div><div data-id="1308" class="note-line"></div>
+
+        <div data-id="1309" class="handout-footer">Mobile Ministry | mobileministry.net | Rooted in the Word · Led by the Spirit · Sent to the Nations</div>
+      </div>
+
+      <!-- Handout 5 -->
+      <div data-id="1310" class="handout-card">
+        <div data-id="1311" class="handout-title">Talmidim Pathway</div>
+        <div data-id="1312" class="handout-subtitle">נְתִיב הַתַּלְמִיד</div>
+        <div data-id="1313" class="handout-hebrew-word">תַּלְמִיד</div>
+        <p data-id="1314" style="font-size:0.8rem;color:#888;text-align:center;margin-bottom:14px">Talmid — Disciple, Imitator</p>
+
+        <h4 data-id="1315" style="font-size:0.85rem;color:#2952A3;font-weight:700;margin-bottom:8px">Scripture Anchors</h4>
+        <p data-id="1316" class="handout-scripture">1. John 1:39</p>
+        <p data-id="1317" class="handout-scripture">2. Matthew 4:19</p>
+        <p data-id="1318" class="handout-scripture">3. Mark 3:14</p>
+        <p data-id="1319" class="handout-scripture">4. Luke 10:3</p>
+        <p data-id="1320" class="handout-scripture" style="margin-bottom:14px">5. Matthew 28:19</p>
+
+        <h4 data-id="1321" style="font-size:0.85rem;color:#2952A3;font-weight:700;margin-bottom:8px">Reflection Questions</h4>
+        <p data-id="1322" class="handout-question">1. Which of the 6 stages best describes where you are right now?</p>
+        <p data-id="1323" class="handout-question">2. What did you leave behind to follow the Rabbi?</p>
+        <p data-id="1324" class="handout-question">3. What does "being with Him" look like in your daily rhythm?</p>
+        <p data-id="1325" class="handout-question">4. What is the Rabbi making you into that you could not make yourself?</p>
+        <p data-id="1326" class="handout-question" style="margin-bottom:14px">5. Who are you walking alongside as their discipler?</p>
+
+        <h4 data-id="1327" style="font-size:0.85rem;color:#2952A3;font-weight:700;margin-bottom:8px">Notes</h4>
+        <div data-id="1328" class="note-line"></div><div data-id="1329" class="note-line"></div><div data-id="1330" class="note-line"></div><div data-id="1331" class="note-line"></div><div data-id="1332" class="note-line"></div><div data-id="1333" class="note-line"></div>
+
+        <div data-id="1334" class="handout-footer">Mobile Ministry | mobileministry.net | Rooted in the Word · Led by the Spirit · Sent to the Nations</div>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer data-id="1335" class="app-footer">
+      <p data-id="1336">Mobile Ministry Library — Leonard | mobileministry.net</p>
+      <p data-id="1337" style="margin-top:4px">Rooted in the Word · Led by the Spirit · Sent to the Nations</p>
+      <p data-id="1338" style="margin-top:8px;opacity:0.6">Made by Copilot</p>
+    </footer>
+  </main>
+</div>
+
+<script>
+  function printBridgeHandout() {
+    var el = document.getElementById('handout-bridge');
+    if (!el) return;
+    var w = window.open('', '_blank', 'width=820,height=1060');
+    if (!w) { alert('Please allow pop-ups to print.'); return; }
+    w.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>The Bridge Calling \u2014 Handout</title>' +
+      '<style>body{font-family:Georgia,serif;padding:32px;color:#1A1A2E;max-width:680px;margin:auto}' +
+      'h1,h2{color:#1A2E6E}' +
+      '.heb{font-size:1.3rem;color:#2A7A6F;direction:rtl;display:block;text-align:center}' +
+      '.line{border-bottom:1px solid #ccc;display:block;height:22px;margin:5px 0}' +
+      'ol{padding-left:20px}li{margin-bottom:6px}' +
+      '@media print{body{padding:16px}}' +
+      '</style></head><body>');
+    w.document.write(el.innerHTML);
+    w.document.write('</body></html>');
+    w.document.close();
+    setTimeout(function(){ w.print(); }, 600);
+  }
+
+  var printBridgeBtn = document.getElementById('btn-print-bridge');
+  if (printBridgeBtn) {
+    printBridgeBtn.addEventListener('click', printBridgeHandout);
+  }
+</script>
+</body>
+</html>
